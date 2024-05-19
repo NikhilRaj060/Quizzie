@@ -1,0 +1,8 @@
+.main {
+    padding: 4.2%;
+    background-color: #EDEDED;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

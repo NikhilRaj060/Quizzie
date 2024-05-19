@@ -1,0 +1,91 @@
+.main {
+    width: 85%;
+    background-color: #EDEDED;
+    padding-top: 3.5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 16px;
+    line-height: 40px;
+}
+
+.header {
+    font-size: 50px;
+    line-height: 75px;
+    color: #5076FF;
+    padding-bottom: 4.5%;
+}
+
+.tableContainer {
+    width: 85%;
+}
+
+.table {
+    width: 100%;
+}
+
+.tableBody {
+    height: 63vh;
+    overflow-x: auto;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-radius: 10px;
+    background-color: #5076FF;
+}
+
+.cell {
+    text-align: center;
+    font-size: 16px;
+    line-height: 40px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.headerCell {
+    text-align: center;
+    font-size: 16px;
+    line-height: 40px;
+    color: white;
+}
+
+.evenRow,
+.oddRow {
+    padding: 3px 0;
+    display: flex;
+    align-items: center;
+}
+
+.oddRow {
+    border-radius: 10px;
+    background-color: #B3C4FF;
+}
+
+.editBtn,
+.deleteBtn,
+.shareBtn {
+    width: 24px;
+    height: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.shareBtn svg {
+    fill: #60B84B;
+}
+
+.analysisLink {
+    cursor: pointer;
+    font-size: 13px;
+    line-height: 40px;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+}

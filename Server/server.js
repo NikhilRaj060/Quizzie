@@ -1,30 +1,31 @@
-const express = require('express');
+const express = require('express')
+require('dotenv').config()
+const connectDB = require('./config/db.js')
 const cors = require('cors');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
 
-dotenv.config();
+const authRoutes = require('./routes/authRoutes.js')
 
 const app = express();
+app.use(express.json())
+
+app.use(cors({
+    "origin" : "*",
+    "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+}));
+
+
+app.use("/v1/auth",authRoutes)
+
+app.use((error, req, res , next) => {
+  console.error(error)
+  res.status(500).json({ errorMessage: "Something went wrong" });
+})
+
 const PORT = process.env.PORT || 3002;
-
-app.use(cors());
-app.use(express.json());
-
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
-
-const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.URI);
-    console.log('Connected to database successfully.');
-    app.listen(PORT, () => {
-      console.log(`Server is started on port ${PORT}`);
-    });
-  } catch (error) {
-    console.error('Error connecting to database:', error);
-  }
-};
-
-connectDB();
+connectDB().then(()=>{
+  app.listen(process.env.PORT,()=>{
+        console.log(`Server is running at port ${PORT}`)
+    })
+}).catch((error)=>{
+    console.error("Error while server is getting up",error)
+})

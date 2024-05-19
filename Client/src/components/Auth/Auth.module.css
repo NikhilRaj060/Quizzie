@@ -1,0 +1,81 @@
+.auth {
+    margin: 6.6% 9%;
+    background-color: #FFFFFF;
+    height: 540px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 15px;
+    box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.15);
+}
+
+
+.header {
+    width: 187px;
+    height: 100px;
+    color: #474444;
+    font-family: "Jomhuria", serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 100px;
+    line-height: 100px;
+    padding-top: 35px;
+    padding-bottom: 5px;
+}
+
+.buttonContainer {
+    display: flex;
+    width: 435px;
+    padding: 10px;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.buttonGroup {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.button {
+    width: 217px;
+    height: 37px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 50px 0px rgba(0, 25, 255, 0.25);
+}
+
+.authButton {
+    width: 275px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #A9BCFF;
+    border-radius: 8px;
+}
+
+.authForm {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: space-around;
+    flex-wrap: wrap;
+    padding: 40px;
+}
+
+.formButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: end;
+}
+
+.submit {
+    cursor: pointer;
+    padding-bottom: 20px;
+}

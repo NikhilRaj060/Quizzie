@@ -292,7 +292,7 @@ function Analytics() {
                     <BiEdit size={24} fill="#854CFF" />
                   </button>
                   <button className={styles.deleteBtn}>
-                    <RiDeleteBin6Fill size={24} fill="#D60000" className={styles.icon_edit} />
+                    <RiDeleteBin6Fill size={24} fill="#D60000" className={styles.delete_edit} />
                   </button>
                   <CopyToClipboard
                     className={styles.shareBtn}

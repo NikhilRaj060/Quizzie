@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import styles from "./QuizBuilder.module.css";
-import { optionTypes } from "../../../lib/quiz.js";
+import { optionTypes , timerOptions } from "../../../lib/quiz.js";
 import { FaPlus } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 import QuestionOption from "./QuestionOption/QuestionOption.jsx";
 
 function QuizBuilder({ data }) {
   const [optionType, setOptionType] = useState(optionTypes);
+  const [timerOption, setTimerOption] = useState(timerOptions);
   const [qIndex, setQIndex] = useState(0);
 
   const [formData, setFormData] = useState({
@@ -19,13 +20,13 @@ function QuizBuilder({ data }) {
         question: "",
         options: [
           {
-            text : "",
-            imageUrl: ""
+            text: "",
+            imageUrl: "",
           },
           {
-            text : "",
-            imageUrl: ""
-          }
+            text: "",
+            imageUrl: "",
+          },
         ],
         correctAnswerIndex: null,
       },
@@ -49,10 +50,17 @@ function QuizBuilder({ data }) {
   };
 
   const handleTimerChange = (val) => {
+    const updatedTimeOptions = timerOption.map(timer => ({
+      ...timer,
+      isSelected: timer.value === val // Set isSelected to true for the clicked timer option
+    }));
+
     setFormData({
       ...formData,
       timer: val,
     });
+
+    setTimerOption(updatedTimeOptions)
   };
 
   const handleAddQuestion = () => {
@@ -64,13 +72,13 @@ function QuizBuilder({ data }) {
           question: "",
           options: [
             {
-              text : "",
-              imageUrl: ""
+              text: "",
+              imageUrl: "",
             },
             {
-              text : "",
-              imageUrl: ""
-            }
+              text: "",
+              imageUrl: "",
+            },
           ],
           correctAnswerIndex: null,
         },
@@ -180,15 +188,14 @@ function QuizBuilder({ data }) {
                 Timer
               </div>
               <div className={styles.timerOptions}>
-                <div className={`${styles.common_class} ${styles.timerOption}`} onClick={() => handleTimerChange(0)} >
-                  OFF
-                </div>
-                <div className={`${styles.common_class} ${styles.timerOption}`} onClick={() => handleTimerChange(5)} >
-                  5 Sec
-                </div>
-                <div className={`${styles.common_class} ${styles.timerOption}`} onClick={() => handleTimerChange(10)} >
-                  10 Sec
-                </div>
+                {timerOption.map((timer) => (
+                  <div key={timer?.id}
+                    className={timer?.isSelected ? `${styles.common_class} ${styles.activeTimerOption} ${styles.timerOption}` : `${styles.common_class} ${styles.timerOption}`}
+                    onClick={() => handleTimerChange(timer?.value)}
+                  >
+                    {timer?.name}
+                  </div>
+                ))}
               </div>
             </div>
           )}

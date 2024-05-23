@@ -150,6 +150,12 @@
     cursor: pointer;
 }
 
+.activeTimerOption {
+    box-shadow: 0px 0px 15px 0px rgba(255, 75, 75, 0.36);
+    background-color: #D60000;
+    color: #FFFFFF;
+}
+
 .buttonGroup {
     width: 100%;
     display: flex;
@@ -179,6 +185,21 @@
 
 .delete_edit {
     cursor: pointer;
+}
+
+.inputButton label {
+    display: block;
+
+    &:before {
+        margin: 0px 20px 0px 0px;
+        width: 10px;
+        height: 10px;
+        border: solid 3px #fff;
+        border-radius: 12px;
+        box-shadow: 0 0 0 2px #9F9F9F;
+        display: inline-block;
+        content: "";
+    }
 }
 
 .inputButton input {

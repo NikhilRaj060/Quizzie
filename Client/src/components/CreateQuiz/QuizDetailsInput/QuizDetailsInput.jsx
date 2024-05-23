@@ -121,7 +121,7 @@ function QuizDetailsInput({}) {
         <div className={styles.cancel} onClick={handleCancel}>
           Cancel
         </div>
-        <di className={styles.continue} onClick={handleContinue}>Continue</di>
+        <div className={styles.continue} onClick={handleContinue}>Continue</div>
       </div>
 
       <Modal

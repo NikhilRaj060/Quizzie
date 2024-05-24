@@ -229,7 +229,7 @@ function Analytics() {
 
   const onCopyText = () => {
     toast.success("Link copied to Clipboard");
-   };
+  };
 
   return (
     <div className={styles.main}>

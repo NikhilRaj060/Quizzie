@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import styles from "./QuizBuilder.module.css";
-import { optionTypes , timerOptions } from "../../../lib/quiz.js";
+import { optionTypes, timerOptions } from "../../../lib/quiz.js";
 import { FaPlus } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 import QuestionOption from "./QuestionOption/QuestionOption.jsx";
+import { createQuiz } from "../../../api/quiz.js";
+import { toast } from "react-toastify";
 
 function QuizBuilder({ data }) {
   const [optionType, setOptionType] = useState(optionTypes);
   const [timerOption, setTimerOption] = useState(timerOptions);
+  const [quizLink, setQuizLink] = useState("");
   const [qIndex, setQIndex] = useState(0);
 
   const [formData, setFormData] = useState({
@@ -43,16 +46,26 @@ function QuizBuilder({ data }) {
   };
 
   const handleQuestionTypeChange = (type) => {
+    const updatedQuestions = formData.questions.map((question) => ({
+      ...question,
+      options: question.options.map(() => ({
+        text: "",
+        imageUrl: "",
+      })),
+      correctAnswerIndex: null
+    }));
+  
     setFormData({
       ...formData,
       option_type: type.id,
+      questions: updatedQuestions,
     });
   };
 
   const handleTimerChange = (val) => {
     const updatedTimeOptions = timerOption.map(timer => ({
       ...timer,
-      isSelected: timer.value === val // Set isSelected to true for the clicked timer option
+      isSelected: timer?.value === val // Set isSelected to true for the clicked timer option
     }));
 
     setFormData({
@@ -84,7 +97,7 @@ function QuizBuilder({ data }) {
         },
       ],
     });
-    setQIndex(qIndex + 1);
+    setQIndex(formData?.questions?.length);
   };
 
   const handleRemoveQuestion = (index) => {
@@ -94,7 +107,9 @@ function QuizBuilder({ data }) {
       ...formData,
       questions: newQuestions,
     });
-    setQIndex(qIndex - 1);
+    if (qIndex >= index) {
+      setQIndex(qIndex > 0 ? qIndex - 1 : 0);
+    }
   };
 
   // Function to update formData
@@ -104,7 +119,14 @@ function QuizBuilder({ data }) {
 
   const handleCancel = () => {};
 
-  const handleCreateQuiz = () => {};
+  const handleCreateQuiz = async () => {
+    let res = await  createQuiz(formData)
+    if (res && res?.data?.message && res?.data?.quizLink ) {
+      toast.success(`${res?.data?.message}.`)
+      setQuizLink(res?.data?.quizLink)
+    }
+    console.log(res)
+  };
 
   console.log(formData);
 
@@ -120,10 +142,14 @@ function QuizBuilder({ data }) {
                 <div
                   className={` ${styles.common_class} ${styles.question_numbers} `}
                   key={qIdx}
+                  onClick={() => setQIndex(qIdx)}
                 >
                   <div
                     className={styles.cross_icon}
-                    onClick={() => handleRemoveQuestion(qIdx)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleRemoveQuestion(qIdx);
+                    }}
                   >
                     {qIdx > 0 && <RxCross2 width={15} height={15} />}
                   </div>
@@ -149,7 +175,7 @@ function QuizBuilder({ data }) {
               placeholder={
                 formData?.quiz_type === "qa" ? "Q&A Question" : "Poll Question"
               }
-              value={formData.questions[qIndex].question}
+              value={formData?.questions[qIndex]?.question}
               onChange={(e) => handleInputChange(qIndex, e)}
             />
           </div>
@@ -161,16 +187,16 @@ function QuizBuilder({ data }) {
               <div className={styles.inputButton} key={type?.id}>
                 <input
                   type="radio"
-                  id={`option_type_${type.id}`}
+                  id={`option_type_${type?.id}`}
                   name="option_type"
                   onClick={() => handleQuestionTypeChange(type, "option_type")}
-                  defaultChecked={type.id === "text"}
+                  defaultChecked={type?.id === "text"}
                 />
                 <label
                   className={`${styles.input_lable} ${styles.common_class}`}
-                  htmlFor={`option_type_${type.id}`}
+                  htmlFor={`option_type_${type?.id}`}
                 >
-                  {type.name}
+                  {type?.name}
                 </label>
               </div>
             ))}

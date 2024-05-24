@@ -3,15 +3,15 @@ import { RiDeleteBin6Fill } from "react-icons/ri";
 import styles from "./QuestionOption.module.css";
 
 function QuestionOption({ formData, qIndex, setFormData }) {
-  const handleOptionChange = (oIndex, event, type) => {
+  const handleOptionChange = (oIndex, event) => {
+    let type = event.target.id.includes("text") ? true : false;
     const newFormData = { ...formData };
-    if (type === "text") {
+    if (type) {
       newFormData.questions[qIndex].options[oIndex].text = event.target.value;
-    } else if (type === "image") {
+    } else {
       newFormData.questions[qIndex].options[oIndex].imageUrl =
         event.target.value;
     }
-
     setFormData(newFormData);
   };
 
@@ -43,9 +43,9 @@ function QuestionOption({ formData, qIndex, setFormData }) {
     <div className={styles.questionOptions}>
       {formData.questions[qIndex].options.map((option, oIndex) => (
         <div className={styles.questionOption} key={`${qIndex}-${oIndex}`}>
-          <div 
+          <div
             className={styles.radioButton}
-            style={formData?.quiz_type !== "qa" ? {paddingRight: "5%"} : {}}
+            style={formData?.quiz_type !== "qa" ? { paddingRight: "5%" } : {}}
           >
             <input
               type="radio"
@@ -54,7 +54,11 @@ function QuestionOption({ formData, qIndex, setFormData }) {
               className={styles.radioButton}
             />
             <label
-              style={formData?.quiz_type == "qa" ? {display : "block"} : {display : "none"}}
+              style={
+                formData?.quiz_type == "qa"
+                  ? { display: "block" }
+                  : { display: "none" }
+              }
               htmlFor={`correct_option_${qIndex}_${oIndex}`}
               onClick={() => handleCorrectOption(oIndex)}
             ></label>
@@ -62,12 +66,17 @@ function QuestionOption({ formData, qIndex, setFormData }) {
           <input
             type="text"
             name="option"
-            id={`option_${qIndex}_${oIndex}`}
+            id={`option_${qIndex}_${oIndex}_${
+              formData?.option_type === "text" ||
+              formData?.option_type === "text_image"
+                ? "text"
+                : "image"
+            }`}
             value={
               formData?.option_type === "text" ||
               formData?.option_type === "text_image"
-                ? option[oIndex]?._text
-                : option[oIndex]?.imageUrl
+                ? option?.text
+                : option?.imageUrl
             }
             style={
               formData?.option_type === "text_image" ? { width: "30%" } : {}
@@ -78,7 +87,7 @@ function QuestionOption({ formData, qIndex, setFormData }) {
                 : `${styles.input}`
             }
             onChange={(e) =>
-              handleOptionChange(oIndex, e, formData?.option_type)
+              handleOptionChange(oIndex, e)
             }
             placeholder={
               formData?.option_type === "text" ||
@@ -91,8 +100,8 @@ function QuestionOption({ formData, qIndex, setFormData }) {
             <input
               type="text"
               name="option"
-              id={`option_${qIndex}_${oIndex}`}
-              value={option[oIndex]?.imageUrl}
+              id={`option_${qIndex}_${oIndex}_image`}
+              value={option?.imageUrl}
               className={
                 oIndex === formData.questions[qIndex].correctAnswerIndex
                   ? `${styles.isOptionSelected} ${styles.input}`

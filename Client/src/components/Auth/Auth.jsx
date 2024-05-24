@@ -66,10 +66,10 @@ export default function Auth() {
     } else {
       setError("");
 
-      console.log(process.env.REACT_APP_PUBLIC_URL)
+      console.log(process.env.REACT_APP_PUBLIC_URL_AUTH)
       let url = isLogin
-        ? `${process.env.REACT_APP_PUBLIC_URL}auth/login`
-        : `${process.env.REACT_APP_PUBLIC_URL}auth/register`;
+        ? `${process.env.REACT_APP_PUBLIC_URL_AUTH}/login`
+        : `${process.env.REACT_APP_PUBLIC_URL_AUTH}/register`;
       data = isLogin
         ? {
             email,

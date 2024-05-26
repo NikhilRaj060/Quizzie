@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 import { sideBarMenu } from "../../lib/sideBarMenu";
-import { Modal , Box } from "@mui/material";
-import QuizDetailsInput from '../CreateQuiz/QuizDetailsInput/QuizDetailsInput'
+import { Modal, Box } from "@mui/material";
+import QuizDetailsInput from '../CreateQuiz/QuizDetailsInput/QuizDetailsInput';
+import { useModal } from "../../Hook/ModalContext";
 
-function Sidebar() {
+const Sidebar = React.memo(() => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
+  const { isQuizModalOpen, openQuizModal, closeQuizModal } = useModal();
 
   const modalStyle = {
     position: 'absolute',
@@ -31,18 +32,9 @@ function Sidebar() {
     navigate("auth/login");
   };
 
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-
   const handleClick = (element) => {
     if (element?.route === "create-quiz") {
-      handleOpen();
+      openQuizModal();
     } else {
       navigate(element?.route);
     }
@@ -54,6 +46,7 @@ function Sidebar() {
       <div className={styles.sidebarMenu}>
         {sideBarMenu.map((element) => (
           <div
+            key={element?.title}
             className={
               element?.isActive
                 ? styles.sidebarMenuItemActive
@@ -71,17 +64,17 @@ function Sidebar() {
       </div>
 
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={isQuizModalOpen}
+        onClose={closeQuizModal}
         aria-labelledby="parent-modal-title"
         aria-describedby="parent-modal-description"
       >
-        <Box sx={{ ...modalStyle}}>
+        <Box sx={{ ...modalStyle }}>
           <QuizDetailsInput />
         </Box>
       </Modal>
     </div>
   );
-}
+});
 
 export default Sidebar;

@@ -8,3 +8,7 @@
   font-size: 20px;
   line-height: 30px;
 }
+
+html, body, #root {
+  height: 100%
+}

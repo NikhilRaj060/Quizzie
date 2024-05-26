@@ -1,23 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./QuizBuilder.module.css";
 import { optionTypes, timerOptions } from "../../../lib/quiz.js";
 import { FaPlus } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 import QuestionOption from "./QuestionOption/QuestionOption.jsx";
-import { createQuiz } from "../../../api/quiz.js";
 import { toast } from "react-toastify";
+import { useModal } from "../../../Hook/ModalContext.jsx";
+import { createQuiz , updateQuizDetailsById } from "../../../api/quiz.js";
 
-function QuizBuilder({ data }) {
+function QuizBuilder() {
   const [optionType, setOptionType] = useState(optionTypes);
   const [timerOption, setTimerOption] = useState(timerOptions);
-  const [quizLink, setQuizLink] = useState("");
   const [qIndex, setQIndex] = useState(0);
+  const { closeQuizBuilderModal, closeAllModals, openQuizPublishModal , quizData , isEdit } =
+    useModal();
+  const [isQuizCreating, setIsQuizCreating] = useState(false);
+  let isEditPermission =  isEdit;
+  const data = quizData;
 
-  const [formData, setFormData] = useState({
-    quiz_name: data?.quiz_name ? data.quiz_name : "",
-    quiz_type: data?.quiz_type ? data.quiz_type : "",
+  const initialFormData = {
+    quiz_name: "",
+    quiz_type: "",
     option_type: "text",
     timer: 0,
+    impression: 0,
     questions: [
       {
         question: "",
@@ -32,8 +38,45 @@ function QuizBuilder({ data }) {
           },
         ],
         correctAnswerIndex: null,
+        attempted: 0,
+        peopleAttemptedCorrectAnswer: 0,
       },
     ],
+  };
+
+  useEffect(()=>{
+    if(isEditPermission){
+      timerOption[0].isSelected = false
+      handleTimerChange(formData?.timer)
+    }
+  },[isEditPermission])
+
+  const [formData, setFormData] = useState({
+    quiz_name: data?.quiz_name ? data.quiz_name : "",
+    quiz_type: data?.quiz_type ? data.quiz_type : "",
+    option_type: isEditPermission && data?.option_type ? data.option_type : "text",
+    timer: isEditPermission && data?.timer ? data.timer : 0,
+    impression: isEditPermission && data?.impression ? data?.impression : 0,
+    questions: isEditPermission && data?.questions
+      ? data?.questions
+      : [
+          {
+            question: "",
+            options: [
+              {
+                text: "",
+                imageUrl: "",
+              },
+              {
+                text: "",
+                imageUrl: "",
+              },
+            ],
+            correctAnswerIndex: null,
+            attempted: 0,
+            peopleAttemptedCorrectAnswer: 0,
+          },
+        ],
   });
 
   const handleInputChange = (index, event) => {
@@ -52,9 +95,9 @@ function QuizBuilder({ data }) {
         text: "",
         imageUrl: "",
       })),
-      correctAnswerIndex: null
+      correctAnswerIndex: null,
     }));
-  
+
     setFormData({
       ...formData,
       option_type: type.id,
@@ -63,9 +106,9 @@ function QuizBuilder({ data }) {
   };
 
   const handleTimerChange = (val) => {
-    const updatedTimeOptions = timerOption.map(timer => ({
+    const updatedTimeOptions = timerOption.map((timer) => ({
       ...timer,
-      isSelected: timer?.value === val // Set isSelected to true for the clicked timer option
+      isSelected: timer?.value === val,
     }));
 
     setFormData({
@@ -73,7 +116,7 @@ function QuizBuilder({ data }) {
       timer: val,
     });
 
-    setTimerOption(updatedTimeOptions)
+    setTimerOption(updatedTimeOptions);
   };
 
   const handleAddQuestion = () => {
@@ -117,18 +160,39 @@ function QuizBuilder({ data }) {
     setFormData(newFormData);
   };
 
-  const handleCancel = () => {};
-
-  const handleCreateQuiz = async () => {
-    let res = await  createQuiz(formData)
-    if (res && res?.data?.message && res?.data?.quizLink ) {
-      toast.success(`${res?.data?.message}.`)
-      setQuizLink(res?.data?.quizLink)
-    }
-    console.log(res)
+  const handleCancel = () => {
+    resetFormData()
+    closeQuizBuilderModal();
   };
 
-  console.log(formData);
+  const resetFormData = () => {
+    setFormData(initialFormData);
+  }
+
+  const handleCreateOrUpdateQuiz = async () => {
+    setIsQuizCreating(true);
+    let res;
+    if ( isEditPermission ) {
+      let res = await updateQuizDetailsById(data?.quizId,formData);
+      if ( res && res?.message ) {
+        toast.success(res?.message);
+        handleCancel();
+      }
+    } else {
+      let res = await createQuiz(formData);
+    }
+    if (!isEditPermission && res && res?.data?.message && res?.data?.quizLink) {
+      setIsQuizCreating(false);
+      toast.success(`${res?.data?.message}.`);
+      closeAllModals();
+      openQuizPublishModal(res?.data?.quizLink);
+    }
+    setTimeout(() => {
+      setIsQuizCreating(false);
+    }, 5000);
+  };
+
+  console.log(formData)
 
   return (
     <div className={styles.main}>
@@ -208,15 +272,20 @@ function QuizBuilder({ data }) {
             formData={formData}
             qIndex={qIndex}
           />
-          {formData?.quiz_type == "qa" && (
+          {formData?.quiz_type === "qa" && (
             <div className={styles.timerContainer}>
               <div className={`${styles.common_class} ${styles.timerHeading}`}>
                 Timer
               </div>
               <div className={styles.timerOptions}>
                 {timerOption.map((timer) => (
-                  <div key={timer?.id}
-                    className={timer?.isSelected ? `${styles.common_class} ${styles.activeTimerOption} ${styles.timerOption}` : `${styles.common_class} ${styles.timerOption}`}
+                  <div
+                    key={timer?.id}
+                    className={
+                      timer?.isSelected
+                        ? `${styles.common_class} ${styles.activeTimerOption} ${styles.timerOption}`
+                        : `${styles.common_class} ${styles.timerOption}`
+                    }
                     onClick={() => handleTimerChange(timer?.value)}
                   >
                     {timer?.name}
@@ -230,8 +299,16 @@ function QuizBuilder({ data }) {
           <div className={styles.cancel} onClick={handleCancel}>
             Cancel
           </div>
-          <div className={styles.continue} onClick={handleCreateQuiz}>
-            Create Quiz
+          <div
+            className={
+              isQuizCreating
+                ? `${styles.continue} ${styles.disbaled}`
+                : `${styles.continue}`
+            }
+            onClick={handleCreateOrUpdateQuiz}
+          >
+            {isQuizCreating ? isEditPermission ? `Updating...` : `Creating...` : isEditPermission ? `Update Quiz` :  `Create Quiz`}
+
           </div>
         </div>
       </div>

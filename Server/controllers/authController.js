@@ -4,12 +4,18 @@ const jwt =  require('jsonwebtoken')
 
 const registerUser = async (req, res ,next) => {
   try {
-    const { name, email , password } = req.body;
-    if (!email || !name || !password) {
+    const { name, email , password , confirmPassword } = req.body;
+    if (!email || !name || !password , !confirmPassword) {
       return res.status(400).json({ errorMessage: "Bad Request" });
     }
 
     const isExistingUser = await UserModel.findOne({ email });
+
+    if (confirmPassword !== password) {
+      return res
+        .status(400)
+        .json({ errorMessage: "Paasword and confirm password is same!" });
+    }
 
     if (isExistingUser) {
       return res
@@ -55,7 +61,7 @@ const loginUser = async (req, res , next) => {
         .json({ errorMessage: "User doesn't exist, Please Register." });
     }
 
-    //JWT
+    //JWT implementation
 
     let token = jwt.sign({userId: userDetails._id}, process.env.JWT_SECRECT_KEY, { expiresIn:'60h' })
 

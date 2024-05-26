@@ -25,16 +25,9 @@ app.use((error, req, res , next) => {
 
 const PORT = process.env.PORT || 3002;
 connectDB().then(()=>{
-  app.listen(4000,()=>{
-        console.log(`Server is running at port ${4000}`)
+  app.listen(process.env.PORT,()=>{
+        console.log(`Server is running at port ${PORT}`)
     })
 }).catch((error)=>{
     console.error("Error while server is getting up",error)
 })
-// connectDB().then(()=>{
-//   app.listen(process.env.PORT,()=>{
-//         console.log(`Server is running at port ${PORT}`)
-//     })
-// }).catch((error)=>{
-//     console.error("Error while server is getting up",error)
-// })

@@ -12,40 +12,28 @@ function InputButton({
   disabled,
   onChange,
   text,
-  required=false,
+  required = false,
   multiple = false,
-  hint
 }) {
-
   const [inputType, setInputType] = useState(type);
-  const [isFocused, setIsFocused] = useState(false);
   const [isValue, setIsValue] = useState(false);
 
-
-const onChangeT = (e) => {
-  let isValueContained = e.target.value;
-  if (isValueContained) {
-    setIsValue(true);
-  } else {
-    setIsValue(false);
-  }
-  // You can also call the original onChange prop if needed
-  onChange(e);
-};
-
-
+  const onChangeT = (e) => {
+    let isValueContained = e.target.value;
+    if (isValueContained) {
+      setIsValue(true);
+    } else {
+      setIsValue(false);
+    }
+    onChange(e);
+  };
 
   return (
     <>
-      {error && (type !== "password" && type !== "Confirm password") &&(
-        <p className="">
-          <span>{error}</span>
-        </p>
-      )}
-      <div>
+      <div className={styles.input_button}>
         <label htmlFor={id}>{label}</label>
         <input
-          className={styles.input}
+          className={error ? `${styles.input} ${styles.error_input}` : styles.input}
           type={inputType}
           id={id}
           name={name}
@@ -64,13 +52,12 @@ const onChangeT = (e) => {
             className: "min-w-0",
           }}
         />
-        {hint ? <span className="text-[#808080] ml-1">{hint}</span> : null}
+        {error && type !== "password" && type !== "Confirm password" && (
+          <p className={styles.error}>
+            <span className={styles.error_text}>{error}</span>
+          </p>
+        )}
       </div>
-      {error && (type === "password" || type === "Confirm password") ? (
-        <p className="">
-          <span>{error}</span>
-        </p>
-      ) : ""}
     </>
   );
 }

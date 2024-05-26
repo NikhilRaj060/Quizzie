@@ -1,0 +1,87 @@
+.main {
+    width: 73.5%;
+    background-color: #EDEDED;
+    padding-top: 3%;
+    padding-left: 7.5%;
+    padding-right: 4.2%;
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    line-height: 40px;
+}
+
+.header {
+    display: flex;
+}
+
+.header_title {
+    width: 100%;
+    font-size: 40px;
+    line-height: 60px;
+    color: #5076FF;
+    padding-bottom: 3%;
+}
+
+.data {
+    width: 30%;
+}
+
+.created_date , .impression { 
+    font-size: 15px;
+    line-height: 23px;
+    color: #FF5D01;
+}
+
+.question_details {
+    width: 77%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 2%;
+}
+
+.question_data {
+    display: flex;
+    min-height: 50%;
+}
+
+.question {
+    width: 100%;
+    font-size: 30px;
+    line-height: 45px;
+    font-weight: 600;
+    padding-bottom: 3%;
+}
+
+.attempted {
+    width: 28%;
+    padding: 5px;
+    margin-right: 5%;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    color: #000000;
+    text-align: center;
+}
+
+.count {
+    font-size: 30px;
+    line-height: 45px;
+    font-weight: 600;
+}
+
+.text {
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: 600;
+}
+
+.border {
+    width: 75%;
+    border: 2px solid #D7D7D7;
+    margin-bottom: 3%;
+}
+
+.question_overview {
+    height: 85%;
+    overflow-y: scroll;
+}

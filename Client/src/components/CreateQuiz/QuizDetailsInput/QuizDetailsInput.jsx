@@ -3,13 +3,14 @@ import styles from "./QuizDetailsInput.module.css";
 import { quizTypes } from "../../../lib/quiz.js";
 import { Modal , Box } from "@mui/material";
 import QuizBuilder from '../QuizBuilder/QuizBuilder.jsx'
+import { useModal } from "../../../Hook/ModalContext.jsx";
 
-function QuizDetailsInput({}) {
+function QuizDetailsInput() {
   const [formData, setFormData] = useState({ quiz_name: "", quiz_type: "" });
   const [nameError, setNameError] = useState("");
   const [typeError, setTypeError] = useState("");
-  const [open, setOpen] = useState(false);
   const [quizType, setQuizType] = useState(quizTypes);
+  const { isQuizBuilderModalOpen , openQuizBuilderModal , closeQuizBuilderModal , closeQuizModal } = useModal();
 
   const quizBuilderStyle = {
     position: 'absolute',
@@ -57,15 +58,8 @@ function QuizDetailsInput({}) {
     }
   };
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const handleCancel = () => {
-
+    closeQuizModal();
   };
 
   const handleContinue = () => {
@@ -81,7 +75,7 @@ function QuizDetailsInput({}) {
     } else {
       setTypeError("");
     }
-    handleOpen()
+    openQuizBuilderModal(formData,false)
   };
 
   console.log(formData);
@@ -125,13 +119,13 @@ function QuizDetailsInput({}) {
       </div>
 
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={isQuizBuilderModalOpen}
+        onClose={closeQuizBuilderModal}
         aria-labelledby="parent-modal-title"
         aria-describedby="parent-modal-description"
       >
         <Box sx={{ ...quizBuilderStyle }}>
-          <QuizBuilder data={formData} />
+          <QuizBuilder/>
         </Box>
       </Modal>
     </div>

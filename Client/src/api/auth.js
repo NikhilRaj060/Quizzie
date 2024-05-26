@@ -1,40 +1,73 @@
 import axios from "axios";
-const backendUrl = `http://localhost:4001/api/v1/auth`;
+import { toast } from "react-toastify";
+const backendUrl = process.env.REACT_APP_PUBLIC_URL_AUTH;
 
-export const registerUser = async ({ email, password, mobile, name }) => {
-    try {
-        const reqUrl = `${backendUrl}/register`;
-        const response = await axios.post(reqUrl, {
-            name,
-            password,
-            mobile,
-            email,
-        });
-        return;
-    } catch (error) {
-        console.log(error);
-        alert("Something went wrong");
-    }
+export const registerUser = async ({
+  email,
+  password,
+  confirmPassword,
+  name,
+}) => {
+  try {
+    const reqUrl = `${backendUrl}/register`;
+    const repsonse = await toast.promise(
+      axios.post(reqUrl, {
+        name,
+        email,
+        password,
+        confirmPassword,
+      })
+    );
+    const response = await toast.promise(
+      axios.post(reqUrl, { name, email, password, confirmPassword }),
+      {
+        pending: "Logging in...",
+        success: {
+          render({ data }) {
+            return `${data?.data?.message || "Success!"}`;
+          },
+        },
+        error: {
+          render({ data }) {
+            return `${data?.response?.data?.errorMessage || "Error!"}`;
+          },
+        },
+      }
+    );
+    return repsonse;
+  } catch (error) {
+    console.log(error);
+    toast.error("Something went wrong");
+  }
 };
 
 export const loginUser = async ({ email, password }) => {
-    try {
-        const reqUrl = `${backendUrl}/login`;
-        const response = await axios.post(reqUrl, {
-            password,
-            email,
-        });
-        if (response.data?.token) {
-            localStorage.setItem("token", JSON.stringify(response.data?.token));
-            localStorage.setItem("name", JSON.stringify(response.data?.name));
-            localStorage.setItem(
-                "userId",
-                JSON.stringify(response.data?.userId)
-            );
+  try {
+    const reqUrl = `${backendUrl}/login`;
+    const response = await toast.promise(
+      axios.post(reqUrl, { email, password }),
+      {
+        pending: "Logging in...",
+        success: {
+          render({ data }) {
+            return `${data?.data?.message || "Success!"}`;
+          },
+        },
+        error: {
+          render({ data }) {
+            return `${data?.response?.data?.errorMessage || "Error!"}`;
+          },
         }
-        return true;
-    } catch (error) {
-        console.log(error);
-        alert("Something went wrong");
+      }
+    );
+    if (response.data?.token) {
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("name", response.data.name);
     }
+    return true;
+  } catch (error) {
+    console.log(error);
+    toast.error("Something went wrong");
+    return false;
+  }
 };

@@ -1,14 +1,20 @@
+.main {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .auth {
-    margin: 6.6% 9%;
+    width: 85%;
+    height: 74%;
     background-color: #FFFFFF;
-    height: 540px;
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 15px;
     box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.15);
 }
-
 
 .header {
     width: 187px;

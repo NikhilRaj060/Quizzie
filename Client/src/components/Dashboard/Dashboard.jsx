@@ -4,7 +4,6 @@ import image from "../../Image/eyes.svg";
 import { dashboardMenu } from "../../lib/dashboardMenu";
 import { getAllQuizDataOverview } from "../../api/quiz";
 import Skeleton from "@mui/material/Skeleton";
-import Stack from "@mui/material/Stack";
 
 export default function Dashboard() {
   const [quizData, setQuizData] = useState([]);
@@ -96,7 +95,7 @@ export default function Dashboard() {
                       <div className={styles.impressionCount}>
                         {element?.impression ? element?.impression : 0}
                       </div>
-                      <image src={image} width={16} height={16}></image>
+                      <img src={image} width={16} height={16}/>
                     </div>
                   </div>
                   <div className={styles.createdDate}>

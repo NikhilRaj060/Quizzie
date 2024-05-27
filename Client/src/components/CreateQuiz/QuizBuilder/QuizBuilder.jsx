@@ -181,11 +181,11 @@ function QuizBuilder() {
     } else {
       res = await createQuiz(formData);
     }
-    if (!isEditPermission && res && res?.data?.message && res?.data?.quizLink) {
+    if (!isEditPermission && res && res?.message && res?.quizLink) {
       setIsQuizCreating(false);
-      toast.success(`${res?.data?.message}.`);
+      toast.success(`${res?.message}.`);
       closeAllModals();
-      openQuizPublishModal(res?.data?.quizLink);
+      openQuizPublishModal(res?.quizLink);
     }
     setTimeout(() => {
       setIsQuizCreating(false);

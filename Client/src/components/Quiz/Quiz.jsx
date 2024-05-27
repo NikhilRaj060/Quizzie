@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Quiz.module.css";
 import { useParams, useNavigate } from "react-router-dom";
-import { getQuizDetailsById, updateQuizDetails } from "../../api/quiz";
+import { getQuizDetailsById, updateQuizDetailsById } from "../../api/quiz";
 import QuizBody from "./QuizBody/QuizBody";
 import { toast } from "react-toastify";
 
@@ -88,7 +88,7 @@ const Quiz = () => {
 
   const updateQuizDetails = async () => {
     try {
-      const resp = await updateQuizDetails(quizId, quiz);
+      const resp = await updateQuizDetailsById(quizId, quiz);
       if (resp.message) {
         setIsSubmitted(false);
         navigate(`/quiz/result/${quizId}`, {

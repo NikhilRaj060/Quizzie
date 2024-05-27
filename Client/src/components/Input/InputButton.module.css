@@ -1,5 +1,4 @@
-.input { 
-  position: relative;
+/* .input {
   height: 38px;
   width: 388px;
   border-radius: 10px 10px 0 0;
@@ -9,10 +8,16 @@
   outline: none;
 }
 
+.button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
 label {
   padding-right: 30px;
 }
-
 
 .error_input {
   outline: 1px solid #D60000;
@@ -24,8 +29,49 @@ label {
 
 .error {
   position: absolute;
-  padding-left: 105px;
+  padding-left: 15px;
   top: 5px;
+}
+
+.error_text {
+  color: #D60000;
+} */
+
+
+.input_button {
+  position: relative;
+}
+
+.button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+label {
+  padding-right: 30px;
+}
+
+.input {
+  height: 38px;
+  width: 388px;
+  border-radius: 10px 10px 0 0;
+  border: none;
+  background-color: #F4F4F4;
+  padding-left: 15px;
+  outline: none;
+}
+
+.error_input {
+  outline: 1px solid #D60000;
+}
+
+.error {
+  position: absolute;
+  padding-left: 15px;
+  top: 50%;
+  transform: translateY(-50%); /* Vertically center */
 }
 
 .error_text {

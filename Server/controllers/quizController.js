@@ -54,24 +54,25 @@ const getQuizById = async (req, res, next) => {
   try {
     const { quizId } = req.params;
 
-    console.log(quizId);
-
     if (!quizId) {
       return res
         .status(400)
         .json({ error: "Validation failed", message: "Invalid quizId" });
     }
 
-    let resp = await QuizModel.findOne({ quizId });
+    let quiz = await QuizModel.findOne({ quizId });
 
-    if (!resp) {
+    if (!quiz) {
       return res.status(404).json({
         error: "Validation failed",
         message: "No quiz found with given quizId",
       });
     }
 
-    return res.status(200).json({ quiz: resp });
+    quiz.impression += 1;
+    await quiz.save();
+
+    return res.status(200).json({ quiz });
   } catch (error) {
     next(error);
   }

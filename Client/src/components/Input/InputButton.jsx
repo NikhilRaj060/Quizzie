@@ -30,33 +30,37 @@ function InputButton({
 
   return (
     <>
-      <div className={styles.input_button}>
+      <div className={styles.button}>
         <label htmlFor={id}>{label}</label>
-        <input
-          className={error ? `${styles.input} ${styles.error_input}` : styles.input}
-          type={inputType}
-          id={id}
-          name={name}
-          value={value}
-          text={text}
-          required={required}
-          multiple={multiple}
-          placeholder={placeholder}
-          error={error}
-          disabled={disabled}
-          onChange={onChangeT}
-          labelprops={{
-            className: "",
-          }}
-          containerprops={{
-            className: "min-w-0",
-          }}
-        />
-        {error && type !== "password" && type !== "Confirm password" && (
-          <p className={styles.error}>
-            <span className={styles.error_text}>{error}</span>
-          </p>
-        )}
+        <div className={styles.input_button}>
+          <input
+            className={
+              error ? `${styles.input} ${styles.error_input}` : styles.input
+            }
+            type={inputType}
+            id={id}
+            name={name}
+            value={value}
+            text={text}
+            required={required}
+            multiple={multiple}
+            placeholder={placeholder}
+            error={error}
+            disabled={disabled}
+            onChange={onChangeT}
+            labelprops={{
+              className: "",
+            }}
+            containerprops={{
+              className: "min-w-0",
+            }}
+          />
+          {error && (
+            <p className={styles.error}>
+              <span className={styles.error_text}>{error}</span>
+            </p>
+          )}
+        </div>
       </div>
     </>
   );

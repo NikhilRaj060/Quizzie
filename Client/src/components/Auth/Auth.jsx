@@ -20,6 +20,7 @@ export default function Auth() {
   const [responseData, setResponseData] = useState({});
   const [emailError, setEmailError] = useState("");
   const [nameError, setNameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const resetForm = () => {
     setName("");
@@ -36,6 +37,7 @@ export default function Auth() {
       setName(inputValue);
     }
   };
+
   const handleEmailChange = (event) => {
     setEmailError("");
     if (event && event.target) {
@@ -44,38 +46,32 @@ export default function Auth() {
     }
   };
 
-  // let data = {};
+  const handlePasswordChange = (event) => {
+    setPasswordError("");
+    if (event && event.target) {
+      const enteredPassword = event.target.value;
+      setPassword(enteredPassword);
+    }
+  };
+
+  const handleConfirmPasswordChange = (event) => {
+    setError("");
+    if (event && event.target) {
+      const enteredConfirmPassword = event.target.value;
+      setConfirmPassword(enteredConfirmPassword);
+    }
+  };
 
   const handleSubmit = async () => {
-    let validName = isValidName(name);
+    let validName = isLogin || isValidName(name);
+    let validEmail = isLogin || isValidEmail(email);
+    let weakPassword = isLogin || isWeakPassword(password);
+    let passwordsMatch = isLogin || password === confirmPassword;
 
-    if (validName) {
-      setNameError("");
-    } else {
-      setNameError("Invalid Name");
-    }
-
-    let validEmail = isValidEmail(email);
-
-    if (!validEmail) {
-      setEmailError("Invalid email address");
-    } else {
-      setEmailError("");
-    }
-
-    let weakPassword = isWeakPassword(password);
-
-    if (weakPassword) {
-      setError("Weak password");
-    } else {
-      setError("");
-    }
-
-    if (!isLogin && password !== confirmPassword) {
-      setError("Passwords do not match");
-    } else {
-      setError("");
-    }
+    setNameError(validName ? "" : "Invalid Name");
+    setEmailError(validEmail ? "" : "Invalid email address");
+    setPasswordError(weakPassword ? "Weak password" : "");
+    setError(passwordsMatch ? "" : "Passwords do not match");
 
     if (isLogin) {
       try {
@@ -86,23 +82,24 @@ export default function Auth() {
         }
       } catch (error) {
         console.log(error);
-        toast.error('Something went wrong');
+        toast.error("Something went wrong");
       }
     } else {
-      try {
-        let res = await registerUser({
-          name,
-          email,
-          password,
-          confirmPassword,
-        });
-        if (res) {
-          resetForm();
-          navigate("/auth/login");
+      if (validName && validEmail && !weakPassword && passwordsMatch) {
+        try {
+          let res = await registerUser({
+            name,
+            email,
+            password,
+            confirmPassword,
+          });
+          if (res) {
+            resetForm();
+            navigate("/auth/login");
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
-        toast.error('Something went wrong');
       }
     }
   };
@@ -119,7 +116,7 @@ export default function Auth() {
   };
 
   return (
-    <>
+    <div className={styles.main}>
       <div className={styles.auth}>
         <div className={styles.header}>QUIZZIE</div>
         <div className={styles.buttonContainer} onClick={handleNavigation}>
@@ -138,7 +135,7 @@ export default function Auth() {
                 label="Name"
                 type="text"
                 required
-                value={name}
+                value={nameError ? "" : name}
                 error={nameError}
                 onChange={handleNameChange}
               />
@@ -147,7 +144,7 @@ export default function Auth() {
               fullWidth
               label="Email"
               type="email"
-              value={email}
+              value={emailError ? "" : email}
               error={emailError}
               onChange={handleEmailChange}
             />
@@ -155,8 +152,9 @@ export default function Auth() {
               fullWidth
               label="Password"
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={passwordError ? "" : password}
+              error={passwordError}
+              onChange={handlePasswordChange}
             />
             {!isLogin && (
               <InputButton
@@ -164,8 +162,8 @@ export default function Auth() {
                 fullWidth
                 label="Confirm password"
                 type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                value={error ? "" : confirmPassword}
+                onChange={handleConfirmPasswordChange}
               />
             )}
           </div>
@@ -176,6 +174,6 @@ export default function Auth() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

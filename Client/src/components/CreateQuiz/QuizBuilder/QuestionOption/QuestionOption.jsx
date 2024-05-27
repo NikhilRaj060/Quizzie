@@ -9,8 +9,7 @@ function QuestionOption({ formData, qIndex, setFormData }) {
     if (type) {
       newFormData.questions[qIndex].options[oIndex].text = event.target.value;
     } else {
-      newFormData.questions[qIndex].options[oIndex].imageUrl =
-        event.target.value;
+      newFormData.questions[qIndex].options[oIndex].imageUrl = event.target.value;
     }
     setFormData(newFormData);
   };
@@ -52,15 +51,16 @@ function QuestionOption({ formData, qIndex, setFormData }) {
               id={`correct_option_${qIndex}_${oIndex}`}
               name={`correct_option_${qIndex}`}
               className={styles.radioButton}
+              checked={formData.questions[qIndex].correctAnswerIndex === oIndex}
+              onChange={() => handleCorrectOption(oIndex)}
             />
             <label
               style={
-                formData?.quiz_type == "qa"
+                formData?.quiz_type === "qa"
                   ? { display: "block" }
                   : { display: "none" }
               }
               htmlFor={`correct_option_${qIndex}_${oIndex}`}
-              onClick={() => handleCorrectOption(oIndex)}
             ></label>
           </div>
           <input
@@ -86,9 +86,7 @@ function QuestionOption({ formData, qIndex, setFormData }) {
                 ? `${styles.isOptionSelected} ${styles.input}`
                 : `${styles.input}`
             }
-            onChange={(e) =>
-              handleOptionChange(oIndex, e)
-            }
+            onChange={(e) => handleOptionChange(oIndex, e)}
             placeholder={
               formData?.option_type === "text" ||
               formData?.option_type === "text_image"
@@ -96,7 +94,7 @@ function QuestionOption({ formData, qIndex, setFormData }) {
                 : "Image Url"
             }
           />
-          {formData?.option_type == "text_image" && (
+          {formData?.option_type === "text_image" && (
             <input
               type="text"
               name="option"

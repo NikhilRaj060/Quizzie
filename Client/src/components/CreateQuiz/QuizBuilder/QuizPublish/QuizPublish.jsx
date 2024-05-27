@@ -55,7 +55,7 @@ function QuizPublish() {
             <input
               className={styles.input}
               value={quizLink}
-              // readOnly
+              readOnly
             />
             <CopyToClipboard
               className={styles.shareButton}
@@ -66,7 +66,7 @@ function QuizPublish() {
             </CopyToClipboard>
           </div>
         </div>
-        <ToastContainer className={styles.customToastContainer} />
+        <ToastContainer className={styles.customToastContainer} containerId="quizPublish" />
       </Box>
     </Modal>
   );

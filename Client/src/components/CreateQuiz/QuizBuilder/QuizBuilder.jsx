@@ -54,7 +54,7 @@ function QuizBuilder() {
   const [formData, setFormData] = useState({
     quiz_name: data?.quiz_name ? data.quiz_name : "",
     quiz_type: data?.quiz_type ? data.quiz_type : "",
-    option_type: isEditPermission && data?.option_type ? data.option_type : "text",
+    option_type: data?.option_type ? data.option_type : "text",
     timer: isEditPermission && data?.timer ? data.timer : 0,
     impression: isEditPermission && data?.impression ? data?.impression : 0,
     questions: isEditPermission && data?.questions
@@ -155,7 +155,6 @@ function QuizBuilder() {
     }
   };
 
-  // Function to update formData
   const handleFormDataChange = (newFormData) => {
     setFormData(newFormData);
   };
@@ -183,7 +182,6 @@ function QuizBuilder() {
     }
     if (!isEditPermission && res && res?.message && res?.quizLink) {
       setIsQuizCreating(false);
-      toast.success(`${res?.message}.`);
       closeAllModals();
       openQuizPublishModal(res?.quizLink);
     }
@@ -191,8 +189,6 @@ function QuizBuilder() {
       setIsQuizCreating(false);
     }, 5000);
   };
-
-  console.log(formData)
 
   return (
     <div className={styles.main}>
@@ -254,7 +250,7 @@ function QuizBuilder() {
                   id={`option_type_${type?.id}`}
                   name="option_type"
                   onClick={() => handleQuestionTypeChange(type, "option_type")}
-                  defaultChecked={type?.id === "text"}
+                  defaultChecked={formData?.option_type ? type?.id === formData?.option_type : type?.id === "text"}
                 />
                 <label
                   className={`${styles.input_lable} ${styles.common_class}`}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./Auth.module.css";
 import InputButton from "../Input/InputButton";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -17,7 +17,6 @@ export default function Auth() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const [responseData, setResponseData] = useState({});
   const [emailError, setEmailError] = useState("");
   const [nameError, setNameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -103,8 +102,6 @@ export default function Auth() {
       }
     }
   };
-
-  useEffect(() => {}, [responseData]);
 
   const handleNavigation = () => {
     resetForm();

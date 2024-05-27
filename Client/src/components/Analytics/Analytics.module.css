@@ -93,12 +93,7 @@
 .custom_toast {
     position: absolute;
     right: 20px;
-    width: fit-content;
-}
-
-.customToastContainer {
-    height: 80%;
-    width: 100%;
+    width: 110%;
 }
 
 .skeleton {

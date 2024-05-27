@@ -18,7 +18,7 @@ function Result() {
               Congrats Quiz is completed
             </div>
             <div>
-              <img src={image} width={320} height={320}></img>
+              <img src={image} width={320} height={320} alt="sucess"></img>
             </div>
             <div className={` ${styles.common_class} ${styles.score_heading} `}>
               Your Score is{" "}

@@ -37,38 +37,47 @@ function QuizPublish() {
   };
 
   return (
-    <Modal
-      open={isQuizPublishModalOpen}
-      onClose={closePublishModalOpen}
-      aria-labelledby="parent-modal-title"
-      aria-describedby="parent-modal-description"
-    >
-      <Box sx={{ ...quizBuilderStyle }}>
-        <div className={styles.container}>
-          <div onClick={closePublishModalOpen} className={styles.cross_button}>
-            <RxCross2 width={25} height={25} />
-          </div>
-          <div className={styles.main}>
-            <div className={styles.heading}>
-              <h1>Congrats your Quiz is Published!</h1>
+    <>
+      <Modal
+        open={isQuizPublishModalOpen}
+        onClose={closePublishModalOpen}
+        aria-labelledby="quiz-publish-modal"
+        aria-describedby="modal for publish quiz link"
+      >
+        <Box sx={{ ...quizBuilderStyle }}>
+          <div className={styles.container}>
+            <div onClick={closePublishModalOpen} className={styles.cross_button}>
+              <RxCross2 width={25} height={25} />
             </div>
-            <input
-              className={styles.input}
-              value={quizLink}
-              readOnly
+            <div className={styles.main}>
+              <div className={styles.heading}>
+                <h1>Congrats your Quiz is Published!</h1>
+              </div>
+              <input
+                className={styles.input}
+                value={quizLink}
+                readOnly
+              />
+              <CopyToClipboard
+                className={styles.shareButton}
+                text={quizLink}
+                onCopy={handleShare}
+              >
+                <span>Share</span>
+              </CopyToClipboard>
+            </div>
+            {/* Move ToastContainer outside of 'main' div but inside 'container' div */}
+            <ToastContainer
+              limit={1}
+              className={styles.customToastContainer}
+              containerId="quizPublish"
+              position="top-right"
             />
-            <CopyToClipboard
-              className={styles.shareButton}
-              text={quizLink}
-              onCopy={handleShare}
-            >
-              <span>Share</span>
-            </CopyToClipboard>
           </div>
-        </div>
-        <ToastContainer className={styles.customToastContainer} containerId="quizPublish" />
-      </Box>
-    </Modal>
+        </Box>
+      </Modal>
+
+    </>
   );
 }
 

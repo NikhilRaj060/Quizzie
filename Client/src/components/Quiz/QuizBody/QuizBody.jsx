@@ -23,11 +23,10 @@ function QuizBody({ data, qIndex, handleSelectedOptionIndicesData }) {
           <>
             {data?.option_type === "text" && (
               <div
-                className={`${styles.quiz_option} ${
-                  selectedOptionIndices[qIndex] === oIdx
+                className={`${styles.quiz_option} ${selectedOptionIndices[qIndex] === oIdx
                     ? styles.is_option_selected
                     : ""
-                }`}
+                  }`}
                 key={`option_${oIdx}`}
                 onClick={() => handleOptionClick(qIndex, oIdx)}
               >
@@ -37,24 +36,23 @@ function QuizBody({ data, qIndex, handleSelectedOptionIndicesData }) {
             {data?.option_type === "image" && (
               <div className={styles.image}>
                 <img
-                  className={`${styles.quiz_image_option} ${
-                    selectedOptionIndices[qIndex] === oIdx
-                      ? styles.is_option_selected
-                      : ""
+                  className={`${styles.quiz_image_option} ${selectedOptionIndices[qIndex] === oIdx
+                    ? styles.is_option_selected
+                    : ""
                   }`}
                   key={`option_${oIdx}`}
                   src={option?.imageUrl}
+                  alt="Option"
                   onClick={() => handleOptionClick(qIndex, oIdx)}
                 />
               </div>
             )}
             {data?.option_type === "text_image" && (
               <div
-                className={`${styles.text_image} ${
-                  selectedOptionIndices[qIndex] === oIdx
+                className={`${styles.text_image} ${selectedOptionIndices[qIndex] === oIdx
                     ? styles.is_option_selected
                     : ""
-                }`}
+                  }`}
                 key={`option_${oIdx}`}
                 onClick={() => handleOptionClick(qIndex, oIdx)}
               >
@@ -63,6 +61,7 @@ function QuizBody({ data, qIndex, handleSelectedOptionIndicesData }) {
                 </div>
                 <div className={styles.text_image_image_conatiner}>
                   <img
+                    alt="Option"
                     className={styles.text_image_image}
                     src={option?.imageUrl}
                   />

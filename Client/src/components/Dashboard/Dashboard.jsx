@@ -95,7 +95,7 @@ export default function Dashboard() {
                       <div className={styles.impressionCount}>
                         {element?.impression ? element?.impression : 0}
                       </div>
-                      <img src={image} width={16} height={16}/>
+                      <img alt="eye" src={image} width={16} height={16}/>
                     </div>
                   </div>
                   <div className={styles.createdDate}>

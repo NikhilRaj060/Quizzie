@@ -13,7 +13,6 @@ import { Modal, Box } from "@mui/material";
 import QuizBuilder from "../CreateQuiz/QuizBuilder/QuizBuilder";
 import { useNavigate } from "react-router-dom";
 import Skeleton from "@mui/material/Skeleton";
-import Stack from "@mui/material/Stack";
 
 const Analytics = () => {
   const naviagte = useNavigate();
@@ -191,12 +190,12 @@ const Analytics = () => {
                     </CopyToClipboard>
                   </div>
                   <div className={styles.cell}>
-                    <a
+                    <div
                       className={styles.analysisLink}
                       onClick={() => handleAnalysis(element)}
                     >
                       Question Wise Analysis
-                    </a>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -214,7 +213,7 @@ const Analytics = () => {
           <QuizBuilder />
         </Box>
       </Modal>
-      <ToastContainer className={styles.customToastContainer} />
+      <ToastContainer className={styles.customToastContainer} containerId="analysisQiuzToast" />
     </div>
   );
 };

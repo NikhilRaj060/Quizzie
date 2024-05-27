@@ -6,7 +6,7 @@ import { RxCross2 } from "react-icons/rx";
 import QuestionOption from "./QuestionOption/QuestionOption.jsx";
 import { toast } from "react-toastify";
 import { useModal } from "../../../Hook/ModalContext.jsx";
-import { createQuiz , updateQuizDetailsById } from "../../../api/quiz.js";
+import { createQuiz , editQuizDetailsById } from "../../../api/quiz.js";
 
 function QuizBuilder() {
   const [optionType, setOptionType] = useState(optionTypes);
@@ -173,13 +173,13 @@ function QuizBuilder() {
     setIsQuizCreating(true);
     let res;
     if ( isEditPermission ) {
-      let res = await updateQuizDetailsById(data?.quizId,formData);
+      res = await editQuizDetailsById(data?.quizId,formData);
       if ( res && res?.message ) {
         toast.success(res?.message);
         handleCancel();
       }
     } else {
-      let res = await createQuiz(formData);
+      res = await createQuiz(formData);
     }
     if (!isEditPermission && res && res?.data?.message && res?.data?.quizLink) {
       setIsQuizCreating(false);

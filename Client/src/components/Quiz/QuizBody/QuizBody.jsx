@@ -36,7 +36,7 @@ function QuizBody({ data, qIndex, handleSelectedOptionIndicesData }) {
             )}
             {data?.option_type === "image" && (
               <div className={styles.image}>
-                <image
+                <img
                   className={`${styles.quiz_image_option} ${
                     selectedOptionIndices[qIndex] === oIdx
                       ? styles.is_option_selected
@@ -62,7 +62,7 @@ function QuizBody({ data, qIndex, handleSelectedOptionIndicesData }) {
                   {option?.text}
                 </div>
                 <div className={styles.text_image_image_conatiner}>
-                  <image
+                  <img
                     className={styles.text_image_image}
                     src={option?.imageUrl}
                   />

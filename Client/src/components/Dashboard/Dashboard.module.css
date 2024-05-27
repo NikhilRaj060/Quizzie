@@ -124,5 +124,17 @@
 }
 
 .skeleton_item_overview {
+    height: 100% !important;
+}
+
+.treding_no_data_found {
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.no_data_found {
+    font-size: 40px;
+    line-height: 45px;
 }

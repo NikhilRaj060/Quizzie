@@ -62,11 +62,7 @@ const createQuiz = async (formData) => {
 const getQuizDetailsById = async (quizId) => {
   try {
     const reqUrl = `${backendUrl}/get-quiz/${quizId}`;
-    const token = localStorage.getItem("token");
-    const headers = {
-      Authorization: `Bearer ${token}`
-    };
-    const response = await axios.get(reqUrl, { headers });
+    const response = await axios.get(reqUrl);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -78,7 +74,7 @@ const getQuizDetailsById = async (quizId) => {
   }
 };
 
-const updateQuizDetailsById = async (quizId, quiz) => {
+const editQuizDetailsById = async (quizId, quiz) => {
   try {
     const reqUrl = `${backendUrl}/edit-quiz/${quizId}`;
     const token = localStorage.getItem("token");
@@ -97,4 +93,19 @@ const updateQuizDetailsById = async (quizId, quiz) => {
   }
 };
 
-export { createQuiz, getQuizDetailsById , updateQuizDetailsById , getAllQuizData , getAllQuizDataOverview };
+const updateQuizDetailsById = async (quizId, quiz) => {
+  try {
+    const reqUrl = `${backendUrl}/update-quiz/${quizId}`;
+    const response = await axios.put(reqUrl, quiz);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    if (error.response && error.response.data) {
+      toast.error(error.response.data.errorMessage || "Something went wrong");
+    } else {
+      toast.error("Something went wrong");
+    }
+  }
+};
+
+export { createQuiz, getQuizDetailsById , editQuizDetailsById , getAllQuizData , getAllQuizDataOverview , updateQuizDetailsById };

@@ -7,7 +7,7 @@ const createQuiz = async (req, res, next) => {
     let userId = req?.currentUserId;
 
     const { quiz_name, quiz_type, option_type, timer, questions, impression } =
-      req.body.formData;
+      req.body;
 
     validatingEachField({
       res,
@@ -52,7 +52,6 @@ const createQuiz = async (req, res, next) => {
 
 const getQuizById = async (req, res, next) => {
   try {
-    let userId = req?.currentUserId;
     const { quizId } = req.params;
 
     console.log(quizId);
@@ -63,7 +62,7 @@ const getQuizById = async (req, res, next) => {
         .json({ error: "Validation failed", message: "Invalid quizId" });
     }
 
-    let resp = await QuizModel.findOne({ quizId , userId});
+    let resp = await QuizModel.findOne({ quizId });
 
     if (!resp) {
       return res.status(404).json({
@@ -83,7 +82,7 @@ const editQuiz = async (req, res, next) => {
     let userId = req?.currentUserId;
     const { quizId } = req.params;
     const { quiz_name, quiz_type, option_type, timer, questions, impression } =
-      req.body.formData;
+      req.body;
 
     validatingEachField({
       res,
@@ -123,6 +122,52 @@ const editQuiz = async (req, res, next) => {
     next(error);
   }
 };
+
+
+const updateQuiz = async (req, res, next) => {
+  try {
+    const { quizId } = req.params;
+    const { quiz_name, quiz_type, option_type, timer, questions, impression } = req.body;
+
+    // Validate each field
+    validatingEachField({
+      res,
+      quiz_name,
+      quiz_type,
+      option_type,
+      timer,
+      questions,
+    });
+
+    // Fetching the quiz details from the database using quizId
+    let quiz = await QuizModel.findOne({ quizId });
+
+    // Check if the quiz exists for the particular quizId
+    if (!quiz) {
+      return res.status(404).json({
+        error: "Validation failed",
+        message: "No quiz found with the given quizId",
+      });
+    }
+
+    // Updating the quiz details with the new data
+    if (quiz_name) quiz.quiz_name = quiz_name;
+    if (quiz_type) quiz.quiz_type = quiz_type;
+    if (option_type) quiz.option_type = option_type;
+    if (timer) quiz.timer = timer;
+    if (questions) quiz.questions = questions;
+    if (impression) quiz.impression = impression;
+
+    // Saving the updated quiz details back to the database
+    await quiz.save();
+
+    // Return success response
+    return res.status(200).json({ message: "Quiz updated successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
+
 
 const getAllDataOverview = async (req, res, next) => {
   try {
@@ -192,10 +237,34 @@ const getAllQuiz = async (req, res, next) => {
         message: "No quiz found",
       });
     }
-    
+
     return res
       .status(200)
       .json({ message: "Quiz fetched successfully", data: resp });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteQuiz = async (req, res, next) => {
+  try {
+    let userId = req?.currentUserId;
+    const { quizId } = req.params;
+
+    if (!quizId) {
+      return res.status(400).json({ error: "Validation failed", message: "Invalid quizId" });
+    }
+
+    let quiz = await QuizModel.findOneAndDelete({ quizId, userId });
+
+    if (!quiz) {
+      return res.status(404).json({
+        error: "Validation failed",
+        message: "No quiz found with given quizId",
+      });
+    }
+
+    return res.status(200).json({ message: "Quiz deleted successfully" });
   } catch (error) {
     next(error);
   }
@@ -369,4 +438,4 @@ const validatingEachField = ({
   }
 };
 
-module.exports = { createQuiz, getQuizById, editQuiz, getAllQuiz , getAllDataOverview };
+module.exports = { createQuiz, getQuizById, editQuiz, getAllQuiz , getAllDataOverview , deleteQuiz , updateQuiz };

@@ -75,34 +75,36 @@ export default function Dashboard() {
           <div className={styles.contentTitle}>Trending Quizs</div>
           <div
             style={{ height: isLoading ? "100%" : "" }}
-            className={styles.trending}
+            className={!quizData?.quizData?.length ? `${styles.treding_no_data_found} ${styles.trending}` : `${styles.trending}`}
           >
-            {isLoading
-              ? skeletonsQuiz.map((_, index) => (
-                  <Skeleton
-                    key={index}
-                    className={styles.skeletons_quiz}
-                    variant="rounded"
-                  />
-                ))
-              : quizData?.quizData?.map((element) => (
-                  <div className={styles.trendingQuiz}>
-                    <div className={styles.quitDetails}>
-                      <div className={styles.quizTitle}>
-                        {element?.quiz_name}
+            {isLoading ? (
+              skeletonsQuiz.map((_, index) => (
+                <Skeleton
+                  key={index}
+                  className={styles.skeletons_quiz}
+                  variant="rounded"
+                />
+              ))
+            ) : !quizData?.quizData?.length ? (
+              <div className={styles.no_data_found}>No quizs yet created, Please create one.</div>
+            ) : (
+              quizData?.quizData?.map((element) => (
+                <div className={styles.trendingQuiz}>
+                  <div className={styles.quitDetails}>
+                    <div className={styles.quizTitle}>{element?.quiz_name}</div>
+                    <div className={styles.impression}>
+                      <div className={styles.impressionCount}>
+                        {element?.impression ? element?.impression : 0}
                       </div>
-                      <div className={styles.impression}>
-                        <div className={styles.impressionCount}>
-                          {element?.impression ? element?.impression : 0}
-                        </div>
-                        <image src={image} width={16} height={16}></image>
-                      </div>
-                    </div>
-                    <div className={styles.createdDate}>
-                      Created on : {element?.createdAt}
+                      <image src={image} width={16} height={16}></image>
                     </div>
                   </div>
-                ))}
+                  <div className={styles.createdDate}>
+                    Created on : {element?.createdAt}
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>

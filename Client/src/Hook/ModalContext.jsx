@@ -8,10 +8,12 @@ export const ModalProvider = ({ children }) => {
   const [isQuizPublishModalOpen, setIsQuizPublishModalOpen] = useState(false);
   const [quizLink, setQuizLink] = useState('');
   const [quizData, setQuizData] = useState(null);
-  const [isEdit , setIsEdit] = useState(false)
+  const [quizId, setQuizId] = useState("")
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isEdit, setIsEdit] = useState(false)
 
   const openQuizModal = () => setIsQuizModalOpen(true);
-  const openQuizBuilderModal = (data = null,isEdit) => {
+  const openQuizBuilderModal = (data = null, isEdit) => {
     setIsEdit(isEdit)
     setQuizData(data);
     setIsQuizBuilderModalOpen(true);
@@ -29,8 +31,14 @@ export const ModalProvider = ({ children }) => {
     setIsQuizModalOpen(false);
     setIsQuizBuilderModalOpen(false);
     setIsQuizPublishModalOpen(false);
-    setQuizData(null); // Reset quiz data when closing all modals
+    setQuizData(null);
   };
+
+  const openDeleteModal = (quizId) => {
+    setQuizId(quizId)
+    setIsDeleteModalOpen(true);
+  }
+  const closeDeleteModal = () => setIsDeleteModalOpen(false);
 
   return (
     <ModalContext.Provider value={{
@@ -44,9 +52,13 @@ export const ModalProvider = ({ children }) => {
       openQuizPublishModal,
       closePublishModalOpen,
       closeAllModals,
+      isDeleteModalOpen,
+      openDeleteModal,
+      closeDeleteModal,
       quizLink,
       quizData,
-      isEdit
+      isEdit,
+      quizId
     }}>
       {children}
     </ModalContext.Provider>

@@ -10,6 +10,6 @@ router.get("/get-all-quiz" , verifyToken , quizController.getAllQuiz)
 router.get("/get-quiz-question-overview" , verifyToken , quizController.getAllDataOverview)
 router.put("/edit-quiz/:quizId" , verifyToken , quizController.editQuiz)
 router.put("/update-quiz/:quizId" , quizController.updateQuiz)
-router.put("/delete-quiz/:quizId" , verifyToken , quizController.deleteQuiz)
+router.delete("/delete-quiz/:quizId" , verifyToken , quizController.deleteQuiz)
 
 module.exports = router;

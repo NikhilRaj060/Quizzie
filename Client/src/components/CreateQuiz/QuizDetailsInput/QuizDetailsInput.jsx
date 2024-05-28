@@ -78,8 +78,6 @@ function QuizDetailsInput() {
     openQuizBuilderModal(formData,false)
   };
 
-  console.log(formData);
-
   return (
     <div className={styles.main}>
       <input

@@ -11,6 +11,7 @@ import moment from "moment";
 import { useModal } from "../../Hook/ModalContext";
 import { Modal, Box } from "@mui/material";
 import QuizBuilder from "../CreateQuiz/QuizBuilder/QuizBuilder";
+import DeleteModal from "../DeleteModal/DeleteModal";
 import { useNavigate } from "react-router-dom";
 import Skeleton from "@mui/material/Skeleton";
 
@@ -22,11 +23,12 @@ const Analytics = () => {
     isQuizBuilderModalOpen,
     openQuizBuilderModal,
     closeQuizBuilderModal,
+    openDeleteModal
   } = useModal();
   const skeletonsOverview = Array.from({ length: 6 });
 
   const quizBuilderStyle = {
-    position: "absolute",
+    position: "relative",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
@@ -95,7 +97,9 @@ const Analytics = () => {
     });
   };
 
-  console.log(quizData);
+  const handleDelete = (quizId) => {
+    openDeleteModal(quizId);
+  };
 
   return (
     <div className={styles.main}>
@@ -174,7 +178,7 @@ const Analytics = () => {
                     >
                       <BiEdit size={24} fill="#854CFF" />
                     </button>
-                    <button className={styles.deleteBtn}>
+                    <button className={styles.deleteBtn} onClick={()=> handleDelete(element?.quizId)}>
                       <RiDeleteBin6Fill
                         size={24}
                         fill="#D60000"
@@ -213,6 +217,7 @@ const Analytics = () => {
           <QuizBuilder />
         </Box>
       </Modal>
+      <DeleteModal />
       <ToastContainer className={styles.customToastContainer} containerId="analysisQiuzToast" />
     </div>
   );

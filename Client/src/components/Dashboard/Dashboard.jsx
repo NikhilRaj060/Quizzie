@@ -30,8 +30,6 @@ export default function Dashboard() {
     data.count = quizData?.quizOverview?.[index];
   });
 
-  console.log(quizData);
-
   return (
     <div className={styles.main}>
       <div className={styles.container}>

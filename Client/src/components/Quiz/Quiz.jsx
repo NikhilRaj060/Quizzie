@@ -51,17 +51,13 @@ const Quiz = () => {
   }, [timer, qIndex, quiz, isSubmitted]);
 
   useEffect(() => {
-    if (initialTimer > 0 ) {
+    if (initialTimer > 0) {
       setTimer(quiz?.timer || 0);
     }
   }, [qIndex, quiz]);
-
-  console.log(timer);
-
   const formattedTimer = `${Math.floor(timer / 60)
     .toString()
     .padStart(2, "0")}:${(timer % 60).toString().padStart(2, "0")}`;
-  console.log(formattedTimer);
 
   const getQuizDetails = async (id) => {
     try {
@@ -81,9 +77,9 @@ const Quiz = () => {
       handleSubmit();
       updateQuizDetails();
     }
-    setTimeout(()=>{
+    setTimeout(() => {
       setIsSubmitted(false);
-    },10000)
+    }, 10000)
   };
 
   const updateQuizDetails = async () => {
@@ -95,7 +91,7 @@ const Quiz = () => {
           state: {
             score,
             total: quiz?.questions?.length,
-            quiz_type : quiz?.quiz_type
+            quiz_type: quiz?.quiz_type
           },
         });
       }
@@ -132,8 +128,8 @@ const Quiz = () => {
             >
               {quiz?.questions
                 ? `${String(qIndex + 1).padStart(2, "0")} / ${String(
-                    quiz.questions.length
-                  ).padStart(2, "0")}`
+                  quiz.questions.length
+                ).padStart(2, "0")}`
                 : "Loading..."}
             </span>
           </div>

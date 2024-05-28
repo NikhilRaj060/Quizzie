@@ -5,7 +5,7 @@ import styles from "./QuestionAnalysis.module.css";
 function QuestionAnalysis() {
   const location = useLocation();
   const elements = location.state;
-  console.log(elements);
+
   return (
     <div className={styles.main}>
       <div className={styles.header}>

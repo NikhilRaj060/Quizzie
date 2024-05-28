@@ -108,4 +108,19 @@ const updateQuizDetailsById = async (quizId, quiz) => {
   }
 };
 
-export { createQuiz, getQuizDetailsById , editQuizDetailsById , getAllQuizData , getAllQuizDataOverview , updateQuizDetailsById };
+const deleteQuiz = async (quizId) => {
+  try {
+    const reqUrl = `${backendUrl}/delete-quiz/${quizId}`;
+    const token = localStorage.getItem("token");
+    const headers = {
+      Authorization: `Bearer ${token}`
+    };
+    const response = await axios.delete(reqUrl, quizId, { headers });
+    return response.data;
+  } catch (error) {
+    console.error(error)
+    toast.error("Something went wrong");
+  }
+}
+
+export { createQuiz, getQuizDetailsById, editQuizDetailsById, getAllQuizData, getAllQuizDataOverview, updateQuizDetailsById, deleteQuiz };

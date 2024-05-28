@@ -19,6 +19,7 @@ const Analytics = () => {
   const naviagte = useNavigate();
   const [quizData, setQuizData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [deleteModalClosed, setDeleteModalClosed] = useState(false);
   const {
     isQuizBuilderModalOpen,
     openQuizBuilderModal,
@@ -52,7 +53,7 @@ const Analytics = () => {
       }, 10000);
     };
     fetchAllDataOverview();
-  }, []);
+  }, [deleteModalClosed]);
 
   quizData?.forEach((quiz) => {
     const date = moment(quiz.createdAt).format("DD-MM-YYYY");
@@ -217,7 +218,7 @@ const Analytics = () => {
           <QuizBuilder />
         </Box>
       </Modal>
-      <DeleteModal />
+      <DeleteModal onClose={() => setDeleteModalClosed(true)} />
       <ToastContainer className={styles.customToastContainer} containerId="analysisQiuzToast" />
     </div>
   );

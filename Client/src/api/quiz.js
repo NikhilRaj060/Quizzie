@@ -115,7 +115,7 @@ const deleteQuiz = async (quizId) => {
     const headers = {
       Authorization: `Bearer ${token}`
     };
-    const response = await axios.delete(reqUrl, quizId, { headers });
+    const response = await axios.delete(reqUrl, { headers });
     return response.data;
   } catch (error) {
     console.error(error)

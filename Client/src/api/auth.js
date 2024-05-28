@@ -2,9 +2,12 @@ import axios from "axios";
 import { toast , Bounce } from "react-toastify";
 const backendUrl = process.env.REACT_APP_PUBLIC_URL_AUTH;
 
+console.log(process.env.REACT_APP_PUBLIC_URL_AUTH, backendUrl,"process.env.REACT_APP_PUBLIC_URL_AUTH","backendUrl")
+
 export const registerUser = async ({ email, password, confirmPassword, name }) => {
   try {
     const reqUrl = `${backendUrl}/register`;
+    console.log(reqUrl,"reqUrl")
     const response = await toast.promise(
       axios.post(reqUrl, { name, email, password, confirmPassword }),
       {
@@ -42,6 +45,7 @@ export const registerUser = async ({ email, password, confirmPassword, name }) =
 export const loginUser = async ({ email, password }) => {
   try {
     const reqUrl = `${backendUrl}/login`;
+    console.log(reqUrl,"reqUrl")
     const response = await toast.promise(
       axios.post(reqUrl, { email, password }),
       {

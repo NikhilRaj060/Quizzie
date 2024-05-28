@@ -19,7 +19,7 @@ const createQuiz = async (req, res, next) => {
     });
 
     const quizId = uuidv4();
-    let quizLink = `http://localhost:3000/quiz/${quizId}`;
+    let quizLink = `${process.env.FRONTEND_URL}/${quizId}`;
 
     questions.forEach((question) => {
       question.attempted = 0;

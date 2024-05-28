@@ -4,18 +4,18 @@ import { optionTypes, timerOptions } from "../../../lib/quiz.js";
 import { FaPlus } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 import QuestionOption from "./QuestionOption/QuestionOption.jsx";
-import { toast } from "react-toastify";
+import { toast, Bounce , ToastContainer } from "react-toastify";
 import { useModal } from "../../../Hook/ModalContext.jsx";
-import { createQuiz , editQuizDetailsById } from "../../../api/quiz.js";
+import { createQuiz, editQuizDetailsById } from "../../../api/quiz.js";
 
 function QuizBuilder() {
   const [optionType, setOptionType] = useState(optionTypes);
   const [timerOption, setTimerOption] = useState(timerOptions);
   const [qIndex, setQIndex] = useState(0);
-  const { closeQuizBuilderModal, closeAllModals, openQuizPublishModal , quizData , isEdit , createQuizSuccess } =
+  const { closeQuizBuilderModal, closeAllModals, openQuizPublishModal, quizData, isEdit, createQuizSuccess } =
     useModal();
   const [isQuizCreating, setIsQuizCreating] = useState(false);
-  let isEditPermission =  isEdit;
+  let isEditPermission = isEdit;
   const data = quizData;
 
   const initialFormData = {
@@ -44,12 +44,12 @@ function QuizBuilder() {
     ],
   };
 
-  useEffect(()=>{
-    if(isEditPermission){
+  useEffect(() => {
+    if (isEditPermission) {
       timerOption[0].isSelected = false
       handleTimerChange(formData?.timer)
     }
-  },[isEditPermission])
+  }, [isEditPermission])
 
   const [formData, setFormData] = useState({
     quiz_name: data?.quiz_name ? data.quiz_name : "",
@@ -60,23 +60,23 @@ function QuizBuilder() {
     questions: isEditPermission && data?.questions
       ? data?.questions
       : [
-          {
-            question: "",
-            options: [
-              {
-                text: "",
-                imageUrl: "",
-              },
-              {
-                text: "",
-                imageUrl: "",
-              },
-            ],
-            correctAnswerIndex: null,
-            attempted: 0,
-            peopleAttemptedCorrectAnswer: 0,
-          },
-        ],
+        {
+          question: "",
+          options: [
+            {
+              text: "",
+              imageUrl: "",
+            },
+            {
+              text: "",
+              imageUrl: "",
+            },
+          ],
+          correctAnswerIndex: null,
+          attempted: 0,
+          peopleAttemptedCorrectAnswer: 0,
+        },
+      ],
   });
 
   const handleInputChange = (index, event) => {
@@ -171,17 +171,40 @@ function QuizBuilder() {
   const handleCreateOrUpdateQuiz = async () => {
     setIsQuizCreating(true);
     let res;
-    if ( isEditPermission ) {
-      res = await editQuizDetailsById(data?.quizId,formData);
-      if ( res && res?.message ) {
+    if (isEditPermission) {
+      res = await editQuizDetailsById(data?.quizId, formData);
+      if (res && res?.message) {
         createQuizSuccess();
-        toast.success(res?.message);
+        toast.success(res?.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+          className: "custom_toast",
+        });
         handleCancel();
       }
     } else {
       res = await createQuiz(formData);
     }
     if (!isEditPermission && res && res?.message && res?.quizLink) {
+      toast.success(res?.message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        className: "custom_toast",
+      });
       setIsQuizCreating(false);
       createQuizSuccess();
       closeAllModals();

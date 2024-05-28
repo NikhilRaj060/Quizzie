@@ -1,5 +1,5 @@
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast , Bounce } from "react-toastify";
 const backendUrl = process.env.REACT_APP_PUBLIC_URL_AUTH;
 
 export const registerUser = async ({ email, password, confirmPassword, name }) => {
@@ -19,13 +19,23 @@ export const registerUser = async ({ email, password, confirmPassword, name }) =
             return `${data?.response?.data?.errorMessage || "Error!"}`;
           },
         },
-        autoClose: false
       },
+      {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        className: "custom_toast",
+      }
     );
     return response;
   } catch (error) {
     console.log(error);
-    toast.error("Something went wrong");
   }
 };
 
@@ -46,8 +56,19 @@ export const loginUser = async ({ email, password }) => {
             return `${data?.response?.data?.errorMessage || "Error!"}`;
           },
         },
-        autoClose: false 
       },
+      {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        className: "custom_toast",
+      }
     );
     if (response.data?.token) {
       localStorage.setItem("token", response.data.token);
@@ -56,7 +77,6 @@ export const loginUser = async ({ email, password }) => {
     return true;
   } catch (error) {
     console.log(error);
-    toast.error("Something went wrong");
     return false;
   }
 };

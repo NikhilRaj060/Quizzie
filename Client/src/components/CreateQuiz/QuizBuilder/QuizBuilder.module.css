@@ -214,9 +214,3 @@
     pointer-events: none;
     opacity: 0.7;
 }
-
-.custom_toast {
-    position: absolute;
-    right: 20px;
-    width: 110%;
-}

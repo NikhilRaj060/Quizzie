@@ -99,7 +99,7 @@ const Analytics = () => {
       progress: undefined,
       theme: "light",
       transition: Bounce,
-      className: styles.custom_toast,
+      className: "custom_toast",
     });
   };
 

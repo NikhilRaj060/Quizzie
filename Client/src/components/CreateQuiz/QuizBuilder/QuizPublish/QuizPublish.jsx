@@ -4,7 +4,7 @@ import { RxCross2 } from "react-icons/rx";
 import { useModal } from "../../../../Hook/ModalContext";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import CopyToClipboard from "react-copy-to-clipboard";
-import styles from "./QuizPublish..module.css";
+import styles from "./QuizPublish.module.css";
 
 function QuizPublish() {
   const { isQuizPublishModalOpen, closePublishModalOpen, quizLink } = useModal();
@@ -32,7 +32,7 @@ function QuizPublish() {
       progress: undefined,
       theme: "light",
       transition: Bounce,
-      className: styles.custom_toast,
+      className: "custom_toast",
     });
   };
 

@@ -29,6 +29,13 @@ app.get("/*", (req, res) => {
     });
 });
 
+app.use("/*", function (req, res, next) {
+  if (req.method !== 'GET') {
+      return res.status(405).send('Method Not Allowed');
+  }
+  next();
+});
+
 const PORT = process.env.PORT || 3002;
 connectDB().then(() => {
     app.listen(PORT, () => {

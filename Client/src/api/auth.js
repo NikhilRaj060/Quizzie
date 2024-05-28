@@ -19,7 +19,8 @@ export const registerUser = async ({ email, password, confirmPassword, name }) =
             return `${data?.response?.data?.errorMessage || "Error!"}`;
           },
         },
-      }
+        autoClose: false
+      },
     );
     return response;
   } catch (error) {
@@ -44,8 +45,9 @@ export const loginUser = async ({ email, password }) => {
           render({ data }) {
             return `${data?.response?.data?.errorMessage || "Error!"}`;
           },
-        }
-      }
+        },
+        autoClose: false 
+      },
     );
     if (response.data?.token) {
       localStorage.setItem("token", response.data.token);

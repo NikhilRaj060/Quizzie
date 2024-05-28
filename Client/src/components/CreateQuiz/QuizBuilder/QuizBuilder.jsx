@@ -12,7 +12,7 @@ function QuizBuilder() {
   const [optionType, setOptionType] = useState(optionTypes);
   const [timerOption, setTimerOption] = useState(timerOptions);
   const [qIndex, setQIndex] = useState(0);
-  const { closeQuizBuilderModal, closeAllModals, openQuizPublishModal , quizData , isEdit } =
+  const { closeQuizBuilderModal, closeAllModals, openQuizPublishModal , quizData , isEdit , createQuizSuccess } =
     useModal();
   const [isQuizCreating, setIsQuizCreating] = useState(false);
   let isEditPermission =  isEdit;
@@ -174,6 +174,7 @@ function QuizBuilder() {
     if ( isEditPermission ) {
       res = await editQuizDetailsById(data?.quizId,formData);
       if ( res && res?.message ) {
+        createQuizSuccess();
         toast.success(res?.message);
         handleCancel();
       }
@@ -182,6 +183,7 @@ function QuizBuilder() {
     }
     if (!isEditPermission && res && res?.message && res?.quizLink) {
       setIsQuizCreating(false);
+      createQuizSuccess();
       closeAllModals();
       openQuizPublishModal(res?.quizLink);
     }

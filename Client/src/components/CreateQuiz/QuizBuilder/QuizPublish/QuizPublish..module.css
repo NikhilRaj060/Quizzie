@@ -60,6 +60,10 @@
     cursor: pointer;
 }
 
+.customToastContainer {
+    position: relative;
+}
+
 .custom_toast {
     position: absolute;
     right: 20px;

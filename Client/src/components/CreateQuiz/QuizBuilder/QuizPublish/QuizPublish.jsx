@@ -66,7 +66,6 @@ function QuizPublish() {
                 <span>Share</span>
               </CopyToClipboard>
             </div>
-            {/* Move ToastContainer outside of 'main' div but inside 'container' div */}
             <ToastContainer
               limit={1}
               className={styles.customToastContainer}

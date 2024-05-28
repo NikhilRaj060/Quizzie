@@ -64,7 +64,10 @@ export default function Auth() {
   const handleSubmit = async () => {
     let validName = isLogin || isValidName(name);
     let validEmail = isLogin || isValidEmail(email);
-    let weakPassword = isLogin || isWeakPassword(password);
+    let weakPassword;
+    if ( !isLogin ) {
+     isWeakPassword(password);
+    }
     let passwordsMatch = isLogin || password === confirmPassword;
 
     setNameError(validName ? "" : "Invalid Name");

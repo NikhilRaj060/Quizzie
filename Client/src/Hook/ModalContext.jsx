@@ -10,11 +10,13 @@ export const ModalProvider = ({ children }) => {
   const [quizData, setQuizData] = useState(null);
   const [quizId, setQuizId] = useState("")
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isEdit, setIsEdit] = useState(false)
+  const [dataUpdated, setDataUpdated] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [quizCreated, setQuizCreated] = useState(false);
 
   const openQuizModal = () => setIsQuizModalOpen(true);
   const openQuizBuilderModal = (data = null, isEdit) => {
-    setIsEdit(isEdit)
+    setIsEdit(isEdit);
     setQuizData(data);
     setIsQuizBuilderModalOpen(true);
   };
@@ -38,7 +40,23 @@ export const ModalProvider = ({ children }) => {
     setQuizId(quizId)
     setIsDeleteModalOpen(true);
   }
-  const closeDeleteModal = () => setIsDeleteModalOpen(false);
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+    setQuizId(null);
+    setDataUpdated(true);
+  };
+
+  const resetDataUpdated = () => {
+    setDataUpdated(false);
+  };
+
+  const createQuizSuccess = () => {
+    setQuizCreated(true);
+  };
+
+  const resetQuizCreated = () => {
+    setQuizCreated(false);
+  };
 
   return (
     <ModalContext.Provider value={{
@@ -55,10 +73,15 @@ export const ModalProvider = ({ children }) => {
       isDeleteModalOpen,
       openDeleteModal,
       closeDeleteModal,
+      dataUpdated,
+      resetDataUpdated,
       quizLink,
       quizData,
       isEdit,
-      quizId
+      quizId,
+      quizCreated,
+      createQuizSuccess,
+      resetQuizCreated
     }}>
       {children}
     </ModalContext.Provider>

@@ -97,7 +97,6 @@ const Quiz = () => {
       }
     } catch (error) {
       console.error("Error updating quiz details:", error);
-      toast.error("Something went wrong.");
     }
   };
 

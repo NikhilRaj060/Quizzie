@@ -19,12 +19,14 @@ const Analytics = () => {
   const naviagte = useNavigate();
   const [quizData, setQuizData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [deleteModalClosed, setDeleteModalClosed] = useState(false);
+  const { dataUpdated, resetDataUpdated } = useModal();
   const {
     isQuizBuilderModalOpen,
     openQuizBuilderModal,
     closeQuizBuilderModal,
-    openDeleteModal
+    openDeleteModal,
+    quizCreated,
+    resetQuizCreated
   } = useModal();
   const skeletonsOverview = Array.from({ length: 6 });
 
@@ -53,7 +55,33 @@ const Analytics = () => {
       }, 10000);
     };
     fetchAllDataOverview();
-  }, [deleteModalClosed]);
+  }, [dataUpdated]);
+
+  useEffect(() => {
+    if (dataUpdated) {
+      resetDataUpdated();
+    }
+  }, [dataUpdated, resetDataUpdated]);
+
+  useEffect(() => {
+    if (quizCreated) {
+      fetchData();
+      resetQuizCreated();
+    }
+  }, [quizCreated]);
+
+  const fetchData = async () => {
+    try {
+      const updatedData = await getAllQuizData();
+      
+      if (updatedData) {
+        setIsLoading(false);
+        setQuizData(updatedData.data);
+      }
+    } catch (error) {
+      console.error("Error fetching updated data:", error);
+    }
+  };
 
   quizData?.forEach((quiz) => {
     const date = moment(quiz.createdAt).format("DD-MM-YYYY");
@@ -71,7 +99,7 @@ const Analytics = () => {
       progress: undefined,
       theme: "light",
       transition: Bounce,
-      className: styles.custom_toast,
+      className: "custom_toast",
     });
   };
 
@@ -211,14 +239,14 @@ const Analytics = () => {
       <Modal
         open={isQuizBuilderModalOpen}
         onClose={closeQuizBuilderModal}
-        aria-labelledby="parent-modal-title"
-        aria-describedby="parent-modal-description"
+        aria-labelledby="modal-quiz-builder"
+        aria-describedby="Modal for quiz builder"
       >
         <Box sx={{ ...quizBuilderStyle }}>
           <QuizBuilder />
         </Box>
       </Modal>
-      <DeleteModal onClose={() => setDeleteModalClosed(true)} />
+      <DeleteModal />
       <ToastContainer className={styles.customToastContainer} containerId="analysisQiuzToast" />
     </div>
   );

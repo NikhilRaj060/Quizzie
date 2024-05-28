@@ -4,7 +4,7 @@ import { RxCross2 } from "react-icons/rx";
 import { useModal } from "../../../../Hook/ModalContext";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import CopyToClipboard from "react-copy-to-clipboard";
-import styles from "./QuizPublish..module.css";
+import styles from "./QuizPublish.module.css";
 
 function QuizPublish() {
   const { isQuizPublishModalOpen, closePublishModalOpen, quizLink } = useModal();
@@ -32,7 +32,7 @@ function QuizPublish() {
       progress: undefined,
       theme: "light",
       transition: Bounce,
-      className: styles.custom_toast,
+      className: "custom_toast",
     });
   };
 
@@ -41,8 +41,8 @@ function QuizPublish() {
       <Modal
         open={isQuizPublishModalOpen}
         onClose={closePublishModalOpen}
-        aria-labelledby="quiz-publish-modal"
-        aria-describedby="modal for publish quiz link"
+        aria-labelledby="modal-publish-quiz"
+        aria-describedby="Modal for publish quiz link"
       >
         <Box sx={{ ...quizBuilderStyle }}>
           <div className={styles.container}>
@@ -66,7 +66,6 @@ function QuizPublish() {
                 <span>Share</span>
               </CopyToClipboard>
             </div>
-            {/* Move ToastContainer outside of 'main' div but inside 'container' div */}
             <ToastContainer
               limit={1}
               className={styles.customToastContainer}

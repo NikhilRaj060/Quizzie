@@ -212,6 +212,8 @@ const getAllDataOverview = async (req, res, next) => {
       quizData.push(quiz);
     });
 
+    quizData.sort((a, b) => b.impression - a.impression);
+
     const data = {
       quizOverview,
       quizData

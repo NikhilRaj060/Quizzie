@@ -3,11 +3,13 @@ import styles from "./Dashboard.module.css";
 import image from "../../Image/eyes.svg";
 import { dashboardMenu } from "../../lib/dashboardMenu";
 import { getAllQuizDataOverview } from "../../api/quiz";
+import { useModal } from "../../Hook/ModalContext";
 import Skeleton from "@mui/material/Skeleton";
 
 export default function Dashboard() {
   const [quizData, setQuizData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { quizCreated, resetQuizCreated } = useModal();
   const skeletonsQuiz = Array.from({ length: 12 });
   const skeleton = Array.from({ length: 3 });
 
@@ -25,6 +27,26 @@ export default function Dashboard() {
     };
     fetchAllDataOverview();
   }, []);
+
+  useEffect(() => {
+    if (quizCreated) {
+      fetchData();
+      resetQuizCreated();
+    }
+  }, [quizCreated]);
+
+  const fetchData = async () => {
+    try {
+      const updatedData = await getAllQuizDataOverview();
+      
+      if (updatedData) {
+        setIsLoading(false);
+        setQuizData(updatedData.data);
+      }
+    } catch (error) {
+      console.error("Error fetching updated data:", error);
+    }
+  };
 
   dashboardMenu.forEach((data, index) => {
     data.count = quizData?.quizOverview?.[index];

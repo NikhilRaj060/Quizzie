@@ -66,8 +66,8 @@ const Sidebar = React.memo(() => {
       <Modal
         open={isQuizModalOpen}
         onClose={closeQuizModal}
-        aria-labelledby="parent-modal-title"
-        aria-describedby="parent-modal-description"
+        aria-labelledby="modal-quiz-details"
+        aria-describedby="Modal for quiz details"
       >
         <Box sx={{ ...modalStyle }}>
           <QuizDetailsInput />

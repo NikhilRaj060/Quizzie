@@ -27,6 +27,8 @@ export default function Auth() {
     setPassword("");
     setConfirmPassword("");
     setError("");
+    setPasswordError("")
+    setEmailError("")
   };
 
   const handleNameChange = (event) => {
@@ -63,16 +65,34 @@ export default function Auth() {
 
   const handleSubmit = async () => {
     let validName = isLogin || isValidName(name);
-    let validEmail = isLogin || isValidEmail(email);
-    let weakPassword = isLogin || isWeakPassword(password);
+    let validEmail;
+    let weakPassword;
+    if (isLogin) {
+      if (email.trim() === "") {
+        validEmail = false;
+        setEmailError(validEmail ? "" : "Please fill email address");
+      }
+    } else {
+      validEmail = isValidEmail(email)
+      setEmailError(validEmail ? "" : "Invalid email address");
+    }
+
+    if (!isLogin) {
+      weakPassword = isWeakPassword(password);
+      setPasswordError(weakPassword ? "Weak password" : "");
+    } else {
+      if (password.trim() === "") {
+        weakPassword = true;
+        setPasswordError(weakPassword ? "Please fill password" : "")
+      }
+    }
+
     let passwordsMatch = isLogin || password === confirmPassword;
 
     setNameError(validName ? "" : "Invalid Name");
-    setEmailError(validEmail ? "" : "Invalid email address");
-    setPasswordError(weakPassword ? "Weak password" : "");
     setError(passwordsMatch ? "" : "Passwords do not match");
 
-    if (isLogin) {
+    if (isLogin && !weakPassword) {
       try {
         let isLogginedIn = await loginUser({ email, password });
         if (isLogginedIn) {
@@ -81,7 +101,6 @@ export default function Auth() {
         }
       } catch (error) {
         console.log(error);
-        toast.error("Something went wrong");
       }
     } else {
       if (validName && validEmail && !weakPassword && passwordsMatch) {

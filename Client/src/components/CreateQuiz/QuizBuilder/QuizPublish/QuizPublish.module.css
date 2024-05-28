@@ -60,8 +60,6 @@
     cursor: pointer;
 }
 
-.custom_toast {
+.customToastContainer {
     position: absolute;
-    right: 20px;
-    width: 110%;
 }

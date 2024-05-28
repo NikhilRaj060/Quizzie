@@ -1,5 +1,5 @@
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast, Bounce } from "react-toastify";
 const backendUrl = process.env.REACT_APP_PUBLIC_URL;
 
 const getAllQuizData = async () => {
@@ -14,9 +14,31 @@ const getAllQuizData = async () => {
   } catch (error) {
     console.log(error);
     if (error.response && error.response.data) {
-      toast.error(error.response.data.message || "Something went wrong");
+      toast.error(error.response.data.message || "Something went wrong", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        className: "custom_toast",
+      });
     } else {
-      toast.error("Something went wrong");
+      toast.error("Something went wrong", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        className: "custom_toast",
+      });
     }
   }
 };
@@ -33,9 +55,31 @@ const getAllQuizDataOverview = async () => {
   } catch (error) {
     console.log(error);
     if (error.response && error.response.data) {
-      toast.error(error.response.data.message || "Something went wrong");
+      toast.error(error.response.data.message || "Something went wrong", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        className: "custom_toast",
+      });
     } else {
-      toast.error("Something went wrong");
+      toast.error("Something went wrong", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        className: "custom_toast",
+      });
     }
   }
 };
@@ -52,9 +96,31 @@ const createQuiz = async (formData) => {
   } catch (error) {
     console.log(error);
     if (error.response && error.response.data) {
-      toast.error(error.response.data.message || "Something went wrong");
+      toast.error(error.response.data.message || "Something went wrong", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        className: "custom_toast",
+      });
     } else {
-      toast.error("Something went wrong");
+      toast.error("Something went wrong", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        className: "custom_toast",
+      });
     }
   }
 };
@@ -67,9 +133,31 @@ const getQuizDetailsById = async (quizId) => {
   } catch (error) {
     console.log(error);
     if (error.response && error.response.data) {
-      toast.error(error.response.data.errorMessage || "Something went wrong");
+      toast.error(error.response.data.errorMessage || "Something went wrong", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        className: "custom_toast",
+      });
     } else {
-      toast.error("Something went wrong");
+      toast.error("Something went wrong", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        className: "custom_toast",
+      });
     }
   }
 };
@@ -86,9 +174,31 @@ const editQuizDetailsById = async (quizId, quiz) => {
   } catch (error) {
     console.log(error);
     if (error.response && error.response.data) {
-      toast.error(error.response.data.errorMessage || "Something went wrong");
+      toast.error(error.response.data.errorMessage || "Something went wrong", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        className: "custom_toast",
+      });
     } else {
-      toast.error("Something went wrong");
+      toast.error("Something went wrong", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        className: "custom_toast",
+      });
     }
   }
 };
@@ -101,9 +211,32 @@ const updateQuizDetailsById = async (quizId, quiz) => {
   } catch (error) {
     console.log(error);
     if (error.response && error.response.data) {
-      toast.error(error.response.data.errorMessage || "Something went wrong");
+      toast.error(error.response.data.errorMessage || "Something went wrong", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        className: "custom_toast",
+      });
     } else {
-      toast.error("Something went wrong");
+      toast.error("Something went wrong", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        className: "custom_color"
+      }
+      );
     }
   }
 };
@@ -119,7 +252,18 @@ const deleteQuiz = async (quizId) => {
     return response.data;
   } catch (error) {
     console.error(error)
-    toast.error("Something went wrong");
+    toast.error("Something went wrong", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+      className: "custom_toast",
+    });
   }
 }
 

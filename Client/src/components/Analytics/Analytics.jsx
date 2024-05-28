@@ -239,8 +239,8 @@ const Analytics = () => {
       <Modal
         open={isQuizBuilderModalOpen}
         onClose={closeQuizBuilderModal}
-        aria-labelledby="parent-modal-title"
-        aria-describedby="parent-modal-description"
+        aria-labelledby="modal-quiz-builder"
+        aria-describedby="Modal for quiz builder"
       >
         <Box sx={{ ...quizBuilderStyle }}>
           <QuizBuilder />

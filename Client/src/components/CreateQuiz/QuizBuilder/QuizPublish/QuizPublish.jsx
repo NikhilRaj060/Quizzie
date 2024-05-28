@@ -41,8 +41,8 @@ function QuizPublish() {
       <Modal
         open={isQuizPublishModalOpen}
         onClose={closePublishModalOpen}
-        aria-labelledby="quiz-publish-modal"
-        aria-describedby="modal for publish quiz link"
+        aria-labelledby="modal-publish-quiz"
+        aria-describedby="Modal for publish quiz link"
       >
         <Box sx={{ ...quizBuilderStyle }}>
           <div className={styles.container}>

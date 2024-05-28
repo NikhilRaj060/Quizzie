@@ -119,8 +119,8 @@ function QuizDetailsInput() {
       <Modal
         open={isQuizBuilderModalOpen}
         onClose={closeQuizBuilderModal}
-        aria-labelledby="parent-modal-title"
-        aria-describedby="parent-modal-description"
+        aria-labelledby="modal-quiz-builder"
+        aria-describedby="Modal quiz builder"
       >
         <Box sx={{ ...quizBuilderStyle }}>
           <QuizBuilder/>

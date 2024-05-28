@@ -19,6 +19,10 @@ function App() {
     <BrowserRouter>
       <ModalProvider>
         <Routes>
+          <Route path="/quiz/:quizId" element={<QuizPage />} />
+          <Route path="/quiz/result/:quizId" element={<ResultPage />} />
+        </Routes>
+        <Routes>
           <Route path="/" element={<ProtectedRoute Component={HomePage} />}>
             <Route path="/" element={<ProtectedRoute Component={Container} />}>
               <Route path="/" element={<Navigate to="/dashboard" />} />
@@ -35,9 +39,6 @@ function App() {
           </Route>
           <Route path="/auth/login" element={<AuthPage />} />
           <Route path="/auth/signup" element={<AuthPage />} />
-
-          <Route path="/quiz/:quizId" element={<QuizPage />} />
-          <Route path="/quiz/result/:quizId" element={<ResultPage />} />
         </Routes>
         <QuizPublish />
         <ToastContainer

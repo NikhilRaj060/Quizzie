@@ -3,7 +3,6 @@ import styles from "./Quiz.module.css";
 import { useParams, useNavigate } from "react-router-dom";
 import { getQuizDetailsById, updateQuizDetailsById } from "../../api/quiz";
 import QuizBody from "./QuizBody/QuizBody";
-import { toast } from "react-toastify";
 
 const Quiz = () => {
   const { quizId } = useParams();

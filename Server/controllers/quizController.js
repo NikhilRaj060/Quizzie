@@ -367,7 +367,7 @@ const validatingEachField = ({
     if (!question.question) {
       return res.status(400).json({
         error: "Validation failed",
-        message: `Question ${i + 1} is missing text`,
+        message: `Question is missing in Question ${i + 1}`,
         field: `questions[${i + 1}].question`,
       });
     }
@@ -426,7 +426,8 @@ const validatingEachField = ({
         });
       }
     }
-    // Check if correctAnswerIndex is not a valid index
+
+    // Check if correctAnswer is choosen or not.
     if (
       (quiz_type != "pt" && !Number.isInteger(question.correctAnswerIndex)) ||
       question.correctAnswerIndex < 0 ||
@@ -434,7 +435,7 @@ const validatingEachField = ({
     ) {
       return res.status(400).json({
         error: "Validation failed",
-        message: `Question ${i + 1} has an invalid correctAnswerIndex`,
+        message: `Please choose ans for question ${i + 1}.`,
         field: `questions[${i + 1}].correctAnswerIndex`,
       });
     }

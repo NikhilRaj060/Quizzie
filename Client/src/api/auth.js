@@ -19,7 +19,7 @@ export const registerUser = async ({ email, password, confirmPassword, name }) =
         },
         error: {
           render({ data }) {
-            return `${data?.response?.data?.errorMessage || "Error!"}`;
+            return `${data?.response?.data?.errorMessage || "Something went wrong"}`;
           },
         },
       },
@@ -57,7 +57,7 @@ export const loginUser = async ({ email, password }) => {
         },
         error: {
           render({ data }) {
-            return `${data?.response?.data?.errorMessage || "Error!"}`;
+            return `${data?.response?.data?.errorMessage || "Something went wrong!"}`;
           },
         },
       },

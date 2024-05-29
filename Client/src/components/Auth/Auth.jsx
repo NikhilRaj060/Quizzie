@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styles from "./Auth.module.css";
 import InputButton from "../Input/InputButton";
 import { useLocation, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { isWeakPassword, isValidEmail, isValidName } from "../../lib/auth";
 import { registerUser, loginUser } from "../../api/auth";
 
@@ -29,6 +28,8 @@ export default function Auth() {
     setError("");
     setPasswordError("")
     setEmailError("")
+    setNameError("")
+    setConfirmPassword("")
   };
 
   const handleNameChange = (event) => {

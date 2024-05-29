@@ -38,7 +38,7 @@ export default function Dashboard() {
   const fetchData = async () => {
     try {
       const updatedData = await getAllQuizDataOverview();
-      
+
       if (updatedData) {
         setIsLoading(false);
         setQuizData(updatedData.data);
@@ -52,43 +52,51 @@ export default function Dashboard() {
     data.count = quizData?.quizOverview?.[index];
   });
 
+  const formatImpressionCount = (count) => {
+    if (count >= 1000 && count < 1000000) {
+      return (count / 1000).toFixed(1) + "k";
+    } else {
+      return count;
+    }
+  };
+
   return (
     <div className={styles.main}>
       <div className={styles.container}>
         <div className={styles.overview}>
           {isLoading
             ? skeleton.map((_, index) => (
-                <Skeleton
-                  className={styles.skeleton_item_overview}
-                  variant="rounded"
-                />
-              ))
+              <Skeleton
+                className={styles.skeleton_item_overview}
+                variant="rounded"
+              />
+            ))
             : dashboardMenu.map((element) => (
-                <div className={styles.overviewItems}>
-                  <div className={styles.quizheader}>
-                    <div className={styles.quiz}>
-                      <div
-                        className={styles.count}
-                        style={{ color: element?.color }}
-                      >
-                        {element?.count}
-                      </div>
-                      <div
-                        className={styles.overviewTitle}
-                        style={{ color: element?.color }}
-                      >
-                        {element?.title}
-                      </div>
+              <div className={styles.overviewItems}>
+                <div className={styles.quizheader}>
+                  <div className={styles.quiz}>
+                    <div
+                      className={styles.count}
+                      style={{ color: element?.color }}
+                    >
+                      {element?.count}
                     </div>
                     <div
                       className={styles.overviewTitle}
                       style={{ color: element?.color }}
                     >
-                      {element?.title2}
+                      {element?.title}
                     </div>
                   </div>
+                  <div
+                    className={styles.overviewTitle}
+                    style={{ color: element?.color }}
+                  >
+                    {element?.title2}
+                  </div>
                 </div>
-              ))}
+              </div>
+            ))}
         </div>
         <div className={styles.content}>
           <div className={styles.contentTitle}>Trending Quizs</div>
@@ -113,9 +121,9 @@ export default function Dashboard() {
                     <div className={styles.quizTitle}>{element?.quiz_name}</div>
                     <div className={styles.impression}>
                       <div className={styles.impressionCount}>
-                        {element?.impression ? element?.impression : 0}
+                        {formatImpressionCount(element?.impression ? element?.impression : 0)}
                       </div>
-                      <img alt="eye" src={image} width={16} height={16}/>
+                      <img alt="eye" src={image} width={16} height={16} />
                     </div>
                   </div>
                   <div className={styles.createdDate}>

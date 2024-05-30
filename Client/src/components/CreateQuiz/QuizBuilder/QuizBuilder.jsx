@@ -279,7 +279,7 @@ function QuizBuilder() {
                 />
                 <label
                   className={`${styles.input_lable} ${styles.common_class}`}
-                  // htmlFor={`option_type_${type?.id}`}
+                  htmlFor={`option_type_${type?.id}`}
                 >
                   {type?.name}
                 </label>

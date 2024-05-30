@@ -23,7 +23,7 @@ export default function Dashboard() {
 
       setTimeout(() => {
         setIsLoading(false);
-      }, 1000000);
+      }, 10000);
     };
     fetchAllDataOverview();
   }, []);
@@ -54,7 +54,7 @@ export default function Dashboard() {
 
   const formatImpressionCount = (count) => {
     if (count >= 1000 && count < 1000000) {
-      return (count / 1000).toFixed(1) + "k";
+      return (count / 1000).toFixed(1) + "K";
     } else {
       return count;
     }
@@ -79,7 +79,7 @@ export default function Dashboard() {
                       className={styles.count}
                       style={{ color: element?.color }}
                     >
-                      {element?.count}
+                      {formatImpressionCount(element?.count ? element?.count : 0)}
                     </div>
                     <div
                       className={styles.overviewTitle}

@@ -162,6 +162,7 @@ const Quiz = () => {
           <div className={styles.skeletons}>
             {skeletonsOverview.map((_, index) => (
               <Skeleton
+                key={index}
                 variant="rounded"
                 className={styles.skeleton}
                 height={100}

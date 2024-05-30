@@ -187,24 +187,7 @@
     cursor: pointer;
 }
 
-.inputButton label {
-    display: block;
-
-    &:before {
-        margin: 0px 20px 0px 0px;
-        width: 10px;
-        height: 10px;
-        border: solid 3px #fff;
-        border-radius: 12px;
-        box-shadow: 0 0 0 2px #9F9F9F;
-        display: inline-block;
-        content: "";
-    }
-}
-
 .inputButton input {
-    display: none;
-
     &:checked+label:before {
         background: black;
     }

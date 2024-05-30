@@ -24,6 +24,7 @@
     margin-bottom: 2%;
     margin-right: 4%;
     color: #9F9F9F;
+    margin-left: 4%;
 }
 
 .input::placeholder {
@@ -78,8 +79,6 @@
 }
 
 .radioButton input {
-    display: none;
-
     &:checked+label:before {
         background: #60B84B;
     }
@@ -90,4 +89,5 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-left: 0%;
 }

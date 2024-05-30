@@ -140,6 +140,7 @@ const Analytics = () => {
         {isLoading ? (
           skeletonsOverview.map((_, index) => (
             <Skeleton
+              key={index}
               variant="rounded"
               className={styles.skeleton}
               height={50}

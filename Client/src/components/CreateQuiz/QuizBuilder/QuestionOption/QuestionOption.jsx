@@ -54,14 +54,6 @@ function QuestionOption({ formData, qIndex, setFormData }) {
               checked={formData.questions[qIndex].correctAnswerIndex === oIndex}
               onChange={() => handleCorrectOption(oIndex)}
             />
-            <label
-              style={
-                formData?.quiz_type === "qa"
-                  ? { display: "block" }
-                  : { display: "none" }
-              }
-              htmlFor={`correct_option_${qIndex}_${oIndex}`}
-            ></label>
           </div>
           <input
             type="text"

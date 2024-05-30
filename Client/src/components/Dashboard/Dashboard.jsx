@@ -67,12 +67,13 @@ export default function Dashboard() {
           {isLoading
             ? skeleton.map((_, index) => (
               <Skeleton
+                key={index}
                 className={styles.skeleton_item_overview}
                 variant="rounded"
               />
             ))
-            : dashboardMenu.map((element) => (
-              <div className={styles.overviewItems}>
+            : dashboardMenu.map((element, index) => (
+              <div className={styles.overviewItems} key={index}>
                 <div className={styles.quizheader}>
                   <div className={styles.quiz}>
                     <div
@@ -115,8 +116,8 @@ export default function Dashboard() {
             ) : !quizData?.quizData?.length ? (
               <div className={styles.no_data_found}>No quizs yet created, Please create one.</div>
             ) : (
-              quizData?.quizData?.map((element) => (
-                <div className={styles.trendingQuiz}>
+              quizData?.quizData?.map((element, index) => (
+                <div className={styles.trendingQuiz} key={index}>
                   <div className={styles.quitDetails}>
                     <div className={styles.quizTitle}>{element?.quiz_name}</div>
                     <div className={styles.impression}>

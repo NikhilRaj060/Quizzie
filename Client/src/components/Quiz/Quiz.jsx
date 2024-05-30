@@ -3,6 +3,7 @@ import styles from "./Quiz.module.css";
 import { useParams, useNavigate } from "react-router-dom";
 import { getQuizDetailsById, updateQuizDetailsById } from "../../api/quiz";
 import QuizBody from "./QuizBody/QuizBody";
+import Skeleton from "@mui/material/Skeleton";
 
 const Quiz = () => {
   const { quizId } = useParams();
@@ -14,16 +15,21 @@ const Quiz = () => {
   let score = 0;
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [timer, setTimer] = useState(0);
+  let isLoading = true;
   let initialTimer = quiz?.timer;
   const navigate = useNavigate();
+  const skeletonsOverview = Array.from({ length: 4 });
 
   useEffect(() => {
     const fetchQuizDetails = async () => {
       if (!quizId) return;
       try {
         const result = await getQuizDetails(quizId);
+        if (result) {
+          isLoading = false;
+        }
         setQuiz(result?.quiz || {});
-        setTimer(result?.quiz?.timer || 0); // Set timer once quiz data is fetched
+        setTimer(result?.quiz?.timer || 0);
       } catch (error) {
         console.error("Error fetching quiz details:", error);
       }
@@ -128,11 +134,22 @@ const Quiz = () => {
                 ? `${String(qIndex + 1).padStart(2, "0")} / ${String(
                   quiz.questions.length
                 ).padStart(2, "0")}`
-                : "Loading..."}
+                :
+                <Skeleton
+                  variant="rounded"
+                  width={100}
+                  height={50}
+                />
+              }
             </span>
           </div>
           <div className={`${styles.timer} ${styles.common_class}`}>
-            {initialTimer > 0 && `${formattedTimer}s`}
+            {!initialTimer ? (initialTimer > 0 && `${formattedTimer}s`) :
+              <Skeleton
+                variant="rounded"
+                width={100}
+                height={50}
+              />}
           </div>
         </div>
         {quiz?.questions && quiz?.questions?.length > 0 ? (
@@ -142,7 +159,15 @@ const Quiz = () => {
             handleSelectedOptionIndicesData={handleSelectedOptionIndicesData}
           />
         ) : (
-          <div>Loading...</div>
+          <div className={styles.skeletons}>
+            {skeletonsOverview.map((_, index) => (
+              <Skeleton
+                variant="rounded"
+                className={styles.skeleton}
+                height={100}
+              />
+            ))}
+          </div>
         )}
         <div className={isSubmitted ? ` ${styles.disbaled} ${styles.quiz_button}` : `${styles.quiz_button}`} onClick={handleNext}>
           {quiz?.questions?.length === qIndex + 1

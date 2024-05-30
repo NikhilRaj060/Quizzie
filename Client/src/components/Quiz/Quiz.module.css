@@ -58,6 +58,18 @@
     opacity: 0.7;
 }
 
+.skeletons {
+    width: 74%;
+    height: 44%;
+    margin-top: 5%;
+    display: grid;
+    grid-template-columns: repeat(2, 40%);
+    grid-template-rows: repeat(2, 37%);
+    grid-column-gap: 20%;
+    grid-row-gap: 26%;
+    margin-bottom: 5%;
+}
+
 /* Responsive styles */
 @media only screen and (max-width: 600px) {
     .common_class {

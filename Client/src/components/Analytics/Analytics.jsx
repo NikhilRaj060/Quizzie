@@ -84,7 +84,7 @@ const Analytics = () => {
   };
 
   quizData?.forEach((quiz) => {
-    const date = moment(quiz.createdAt).format("DD-MM-YYYY");
+    const date = moment(quiz.createdAt).format("DD-MMM-YYYY");
     quiz.createdDate = date;
   });
 

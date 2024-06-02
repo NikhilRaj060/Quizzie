@@ -4,12 +4,12 @@ import { optionTypes, timerOptions } from "../../../lib/quiz.js";
 import { FaPlus } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 import QuestionOption from "./QuestionOption/QuestionOption.jsx";
-import { toast, Bounce , ToastContainer } from "react-toastify";
+import { toast, Bounce } from "react-toastify";
 import { useModal } from "../../../Hook/ModalContext.jsx";
 import { createQuiz, editQuizDetailsById } from "../../../api/quiz.js";
 
 function QuizBuilder() {
-  const [optionType, setOptionType] = useState(optionTypes);
+  const [optionType] = useState(optionTypes);
   const [timerOption, setTimerOption] = useState(timerOptions);
   const [qIndex, setQIndex] = useState(0);
   const { closeQuizBuilderModal, closeAllModals, openQuizPublishModal, quizData, isEdit, createQuizSuccess } =
@@ -323,13 +323,12 @@ function QuizBuilder() {
           <div
             className={
               isQuizCreating
-                ? `${styles.continue} ${styles.disbaled}`
+                ? `${styles.continue} ${styles.disabled}`
                 : `${styles.continue}`
             }
             onClick={handleCreateOrUpdateQuiz}
           >
             {isQuizCreating ? isEditPermission ? `Updating...` : `Creating...` : isEditPermission ? `Update Quiz` :  `Create Quiz`}
-
           </div>
         </div>
       </div>

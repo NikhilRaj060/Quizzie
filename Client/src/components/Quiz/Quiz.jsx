@@ -170,7 +170,7 @@ const Quiz = () => {
             ))}
           </div>
         )}
-        <div className={isSubmitted ? ` ${styles.disbaled} ${styles.quiz_button}` : `${styles.quiz_button}`} onClick={handleNext}>
+        <div className={isSubmitted ? ` ${styles.disabled} ${styles.quiz_button}` : `${styles.quiz_button}`} onClick={handleNext}>
           {quiz?.questions?.length === qIndex + 1
             ? isSubmitted
               ? "SUBMITTING..."

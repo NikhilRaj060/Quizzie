@@ -2,7 +2,7 @@ import axios from "axios";
 import { toast , Bounce } from "react-toastify";
 const backendUrl = process.env.REACT_APP_PUBLIC_URL_AUTH;
 
-export const registerUser = async ({ email, password, confirmPassword, name }) => {
+export const registerUser = async ({ email, password, confirmPassword, name },setIsAuthentication) => {
   try {
     const reqUrl = `${backendUrl}/register`;
     console.log(reqUrl,"reqUrl")
@@ -36,11 +36,12 @@ export const registerUser = async ({ email, password, confirmPassword, name }) =
     );
     return response;
   } catch (error) {
+    setIsAuthentication(false);
     console.log(error);
   }
 };
 
-export const loginUser = async ({ email, password }) => {
+export const loginUser = async ({ email, password },setIsAuthentication) => {
   try {
     const reqUrl = `${backendUrl}/login`;
     console.log(reqUrl,"reqUrl")
@@ -78,6 +79,7 @@ export const loginUser = async ({ email, password }) => {
     }
     return true;
   } catch (error) {
+    setIsAuthentication(false);
     console.log(error);
     return false;
   }

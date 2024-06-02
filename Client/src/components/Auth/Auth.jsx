@@ -4,8 +4,10 @@ import InputButton from "../Input/InputButton";
 import { useLocation, useNavigate } from "react-router-dom";
 import { isWeakPassword, isValidEmail, isValidName } from "../../lib/auth";
 import { registerUser, loginUser } from "../../api/auth";
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function Auth() {
+  const [isAuthentication , setIsAuthentication] = useState(false)
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -95,28 +97,38 @@ export default function Auth() {
 
     if (isLogin && !weakPassword) {
       try {
-        let isLogginedIn = await loginUser({ email, password });
+        setIsAuthentication(true);
+        let isLogginedIn = await loginUser({ email, password },setIsAuthentication);
         if (isLogginedIn) {
+          setIsAuthentication(false);
           resetForm();
           navigate("/dashboard");
+        } else {
+          setIsAuthentication(false);
         }
       } catch (error) {
+        setIsAuthentication(false);
         console.log(error);
       }
     } else {
       if (validName && validEmail && !weakPassword && passwordsMatch) {
         try {
+          setIsAuthentication(true);
           let res = await registerUser({
             name,
             email,
             password,
             confirmPassword,
-          });
+          },setIsAuthentication);
           if (res) {
+            setIsAuthentication(false);
             resetForm();
             navigate("/auth/login");
+          } else {
+            setIsAuthentication(false);
           }
         } catch (error) {
+          setIsAuthentication(false);
           console.log(error);
         }
       }
@@ -185,9 +197,9 @@ export default function Auth() {
             )}
           </div>
         </div>
-        <div className={styles.submit} onClick={handleSubmit}>
+        <div className={isAuthentication ? `${styles.submit} ${styles.disabled}` : `${styles.submit}`} onClick={handleSubmit}>
           <div className={styles.authButton}>
-            {isLogin ? "Log In" : "Sign Up"}
+            {isAuthentication ? <CircularProgress size={25}/> : isLogin ?  "Log In" : "Sign Up"}
           </div>
         </div>
       </div>

@@ -49,11 +49,6 @@ export default function Dashboard() {
     }
   };
 
-  quizData?.quizData?.forEach((quiz) => {
-    const date = moment(quiz.createdAt).format("DD MMM, YYYY");
-    quiz.createdDate = date;
-  });
-
   dashboardMenu.forEach((data, index) => {
     data.count = quizData?.quizOverview?.[index];
   });
@@ -134,7 +129,7 @@ export default function Dashboard() {
                     </div>
                   </div>
                   <div className={styles.createdDate}>
-                    Created on : {element?.createdDate}
+                    Created on : {element?.createdAt}
                   </div>
                 </div>
               ))

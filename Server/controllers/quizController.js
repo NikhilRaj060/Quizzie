@@ -1,5 +1,6 @@
 const { v4: uuidv4 } = require("uuid");
 const QuizModel = require("../models/quiz");
+const moment = require('moment');
 
 const createQuiz = async (req, res, next) => {
   try {
@@ -187,6 +188,11 @@ const getAllDataOverview = async (req, res, next) => {
       });
     }
 
+    resp?.forEach((quiz) => {
+      const date = moment(quiz.createdAt).format("DD MMM, YYYY");
+      quiz.createdDate = date;
+    });
+
     let questionCount = resp.reduce((accumulator, currentValue) => {
       return accumulator + currentValue.questions.length;
     }, 0);
@@ -206,11 +212,11 @@ const getAllDataOverview = async (req, res, next) => {
     );
 
     resp.forEach((res) => {
-      if ( res?.impression?.length > 10) {
+      if ( res?.impression > 10) {
         let quiz = {
           quiz_name: res?.quiz_name,
           impression: res?.impression,
-          createdAt: new Date(res.createdAt).toLocaleDateString("en-GB"),
+          createdAt: res?.createdDate
         };
         quizData.push(quiz);
       }

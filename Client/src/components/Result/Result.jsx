@@ -1,17 +1,27 @@
-import React from "react";
+import React , { useEffect } from "react";
 import image from "../../Image/success-image.svg";
 import { useLocation } from "react-router-dom";
 import styles from "./Result.module.css";
 
 function Result() {
+
+  useEffect(() => {
+    const isRefresh = window.performance && window.performance.navigation.type === window.performance.navigation.TYPE_RELOAD;
+    
+    if (isRefresh) {
+      window.location.href = '/quiz/6ad0f4ae-3cf7-411a-a0f9-3548176f6dd9';
+    }
+  });
+
   const location = useLocation();
-  const { score, total, quiz_type } = location.state;
+  const { score, total, quiz_type } = location?.state;
 
   const isPollType = quiz_type === "pt";
 
+
   return (
     <div className={styles.container}>
-      <div className={styles.main}>
+      <div className={styles.main} style={{paddingTop : isPollType ? "5%" : ""}}>
         {!isPollType ? (
           <>
             <div style={{ paddingTop: "6%" }} className={styles.common_class}>

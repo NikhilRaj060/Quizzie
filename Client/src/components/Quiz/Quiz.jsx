@@ -144,7 +144,7 @@ const Quiz = () => {
             </span>
           </div>
           <div className={`${styles.timer} ${styles.common_class}`}>
-            {!initialTimer ? (initialTimer > 0 && `${formattedTimer}s`) :
+            {initialTimer ? (initialTimer > 0 && `${formattedTimer}s`) :
               <Skeleton
                 variant="rounded"
                 width={100}

@@ -17,8 +17,10 @@ function InputButton({
 }) {
   const [inputType, setInputType] = useState(type);
   const [isValue, setIsValue] = useState(false);
+  const [isDisapper,setIsDisapper] = useState(false)
 
   const onChangeT = (e) => {
+    setIsDisapper(false)
     let isValueContained = e.target.value;
     if (isValueContained) {
       setIsValue(true);
@@ -27,6 +29,10 @@ function InputButton({
     }
     onChange(e);
   };
+
+  const handleErrorClick = () => {
+    setIsDisapper(true);
+  }
 
   return (
     <>
@@ -37,6 +43,7 @@ function InputButton({
             className={
               error ? `${styles.input} ${styles.error_input}` : styles.input
             }
+            style={{outline: isDisapper ? "none" : ""}}
             type={inputType}
             id={id}
             name={name}
@@ -44,7 +51,7 @@ function InputButton({
             text={text}
             required={required}
             multiple={multiple}
-            placeholder={placeholder}
+            placeholder={error ? error : placeholder}
             error={error}
             disabled={disabled}
             onChange={onChangeT}
@@ -55,11 +62,11 @@ function InputButton({
               className: "min-w-0",
             }}
           />
-          {error && (
+          {/* {error && (
             <p className={styles.error}>
               <span className={styles.error_text}>{error}</span>
             </p>
-          )}
+          )} */}
         </div>
       </div>
     </>

@@ -27,11 +27,15 @@ label {
   outline: 1px solid #D60000;
 }
 
+.error_input::placeholder {
+  color: #D60000;
+}
+
 .error {
   position: absolute;
   padding-left: 15px;
   top: 50%;
-  transform: translateY(-50%); /* Vertically center */
+  transform: translateY(-50%);
 }
 
 .error_text {

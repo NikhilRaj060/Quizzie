@@ -3,13 +3,12 @@ const QuizModel = require("../models/quiz");
 
 const createQuiz = async (req, res, next) => {
   try {
-
     let userId = req?.currentUserId;
 
     const { quiz_name, quiz_type, option_type, timer, questions, impression } =
       req.body;
 
-    validatingEachField({
+    const isValid = validatingEachField({
       res,
       quiz_name,
       quiz_type,
@@ -17,6 +16,8 @@ const createQuiz = async (req, res, next) => {
       timer,
       questions,
     });
+
+    if (!isValid) return;
 
     const quizId = uuidv4();
     let quizLink = `${process.env.FRONTEND_URL}/quiz/${quizId}`;
@@ -85,7 +86,7 @@ const editQuiz = async (req, res, next) => {
     const { quiz_name, quiz_type, option_type, timer, questions, impression } =
       req.body;
 
-    validatingEachField({
+    const isValid = validatingEachField({
       res,
       quiz_name,
       quiz_type,
@@ -94,8 +95,10 @@ const editQuiz = async (req, res, next) => {
       questions,
     });
 
+    if (!isValid) return;
+
     // Fetching the quiz details from the database
-    let quiz = await QuizModel.findOne({ quizId , userId});
+    let quiz = await QuizModel.findOne({ quizId, userId });
 
     // Check if the quiz exists fro the particular quizId
     if (!quiz) {
@@ -124,14 +127,14 @@ const editQuiz = async (req, res, next) => {
   }
 };
 
-
 const updateQuiz = async (req, res, next) => {
   try {
     const { quizId } = req.params;
-    const { quiz_name, quiz_type, option_type, timer, questions, impression } = req.body;
+    const { quiz_name, quiz_type, option_type, timer, questions, impression } =
+      req.body;
 
     // Validate each field
-    validatingEachField({
+    const isValid = validatingEachField({
       res,
       quiz_name,
       quiz_type,
@@ -139,6 +142,8 @@ const updateQuiz = async (req, res, next) => {
       timer,
       questions,
     });
+
+    if (!isValid) return;
 
     // Fetching the quiz details from the database using quizId
     let quiz = await QuizModel.findOne({ quizId });
@@ -169,13 +174,11 @@ const updateQuiz = async (req, res, next) => {
   }
 };
 
-
 const getAllDataOverview = async (req, res, next) => {
   try {
-
     let userId = req?.currentUserId;
 
-    let resp = await QuizModel.find({userId});
+    let resp = await QuizModel.find({ userId });
 
     if (!resp) {
       return res.status(404).json({
@@ -197,17 +200,16 @@ const getAllDataOverview = async (req, res, next) => {
     let quizOverview = [];
 
     quizOverview.push(
-      quizCount = resp.length,
+      (quizCount = resp.length),
       questionCount,
-      totalImpressionCount,
-    )
+      totalImpressionCount
+    );
 
-    
     resp.forEach((res) => {
       let quiz = {
         quiz_name: res?.quiz_name,
         impression: res?.impression,
-        createdAt : new Date(res.createdAt).toLocaleDateString('en-GB')
+        createdAt: new Date(res.createdAt).toLocaleDateString("en-GB"),
       };
       quizData.push(quiz);
     });
@@ -216,7 +218,7 @@ const getAllDataOverview = async (req, res, next) => {
 
     const data = {
       quizOverview,
-      quizData
+      quizData,
     };
 
     return res
@@ -229,10 +231,9 @@ const getAllDataOverview = async (req, res, next) => {
 
 const getAllQuiz = async (req, res, next) => {
   try {
-
     let userId = req?.currentUserId;
 
-    let resp = await QuizModel.find({userId});
+    let resp = await QuizModel.find({ userId });
 
     if (!resp) {
       return res.status(404).json({
@@ -255,7 +256,9 @@ const deleteQuiz = async (req, res, next) => {
     const { quizId } = req.params;
 
     if (!quizId) {
-      return res.status(400).json({ error: "Validation failed", message: "Invalid quizId" });
+      return res
+        .status(400)
+        .json({ error: "Validation failed", message: "Invalid quizId" });
     }
 
     let quiz = await QuizModel.findOneAndDelete({ quizId, userId });
@@ -283,80 +286,89 @@ const validatingEachField = ({
 }) => {
   // Validating each required field individually
   if (!quiz_name) {
-    return res.status(400).json({
+    res.status(400).json({
       error: "Validation failed",
       message: "Quiz name is required",
       field: "quiz_name",
     });
+    return false;
   }
 
   if (!quiz_type) {
-    return res.status(400).json({
+    res.status(400).json({
       error: "Validation failed",
       message: "Quiz type is required",
       field: "quiz_type",
     });
+    return false;
   }
 
   if (!option_type) {
-    return res.status(400).json({
+    res.status(400).json({
       error: "Validation failed",
       message: "Option type is required",
       field: "option_type",
     });
+    return false;
   }
 
   if (!questions || !Array.isArray(questions) || questions.length === 0) {
-    return res.status(400).json({
+    res.status(400).json({
       error: "Validation failed",
       message: "At least one question is required",
       field: "questions",
     });
+    return false;
   }
 
   // Validating Quiz Name
   if (typeof quiz_name !== "string" || quiz_name.trim() === "") {
-    return res.status(400).json({
+    res.status(400).json({
       error: "Validation failed",
       message: "Invalid quiz name",
       field: "quiz_name",
     });
+    return false;
   }
 
   // Validating Quiz Type
   if (!["qa", "pt"].includes(quiz_type)) {
-    return res.status(400).json({
+    res.status(400).json({
       error: "Validation failed",
       message: "Invalid quiz type",
       field: "quiz_type",
     });
+    return false;
   }
 
-  // Validating Option Tyoe
+  // Validating Option Type
   if (!["text", "image", "text_image"].includes(option_type)) {
-    return res.status(400).json({
+    res.status(400).json({
       error: "Validation failed",
       message: "Invalid option type",
       field: "option_type",
     });
+    return false;
   }
 
   // Validating timer count
   if (typeof timer !== "number" || timer < 0) {
-    return res.status(400).json({
+    res.status(400).json({
       error: "Validation failed",
       message: "Invalid timer value",
       field: "timer",
     });
+    return false;
   }
 
   // Validating questions of the quiz
   if (!Array.isArray(questions) || questions.length === 0) {
-    return res.status(400).json({
+    res.status(400).json({
       error: "Validation failed",
       message: "At least one question is required",
       field: "questions",
     });
+    return false;
   }
 
   // Validating each question of the quiz
@@ -365,20 +377,22 @@ const validatingEachField = ({
 
     // Check if the question text is missing
     if (!question.question) {
-      return res.status(400).json({
+      res.status(400).json({
         error: "Validation failed",
         message: `Question is missing in Question ${i + 1}`,
         field: `questions[${i + 1}].question`,
       });
+      return false;
     }
 
     // Check if options are missing or less than 2
     if (!Array.isArray(question.options) || question.options.length < 2) {
-      return res.status(400).json({
+      res.status(400).json({
         error: "Validation failed",
         message: `Question ${i + 1} must have at least two options`,
         field: `questions[${i + 1}].options`,
       });
+      return false;
     }
 
     // Validate each option
@@ -390,11 +404,12 @@ const validatingEachField = ({
           typeof option.text !== "string" ||
           option.text.trim() === "")
       ) {
-        return res.status(400).json({
+        res.status(400).json({
           error: "Validation failed",
           message: `Invalid text option ${j + 1} in question ${i + 1}`,
           field: `questions[${i + 1}].options[${j + 1}].text`,
         });
+        return false;
       }
       if (
         option_type === "image" &&
@@ -402,11 +417,12 @@ const validatingEachField = ({
           typeof option.imageUrl !== "string" ||
           option.imageUrl.trim() === "")
       ) {
-        return res.status(400).json({
+        res.status(400).json({
           error: "Validation failed",
           message: `Invalid image URL option ${j + 1} in question ${i + 1}`,
           field: `questions[${i + 1}].options[${j + 1}].imageUrl`,
         });
+        return false;
       }
       if (
         option_type === "text_image" &&
@@ -417,29 +433,42 @@ const validatingEachField = ({
           typeof option.imageUrl !== "string" ||
           option.imageUrl.trim() === "")
       ) {
-        return res.status(400).json({
+        res.status(400).json({
           error: "Validation failed",
           message: `Invalid text or image URL option ${j + 1} in question ${
             i + 1
           }`,
           field: `questions[${i + 1}].options[${j + 1}]`,
         });
+        return false;
       }
     }
 
-    // Check if correctAnswer is choosen or not.
+    // Check if correctAnswer is chosen or not
     if (
       (quiz_type != "pt" && !Number.isInteger(question.correctAnswerIndex)) ||
       question.correctAnswerIndex < 0 ||
       question.correctAnswerIndex >= question.options.length
     ) {
-      return res.status(400).json({
+      res.status(400).json({
         error: "Validation failed",
-        message: `Please choose ans for question ${i + 1}.`,
+        message: `Please choose an answer for question ${i + 1}.`,
         field: `questions[${i + 1}].correctAnswerIndex`,
       });
+      return false;
     }
   }
+
+  // All validations passed
+  return true;
 };
 
-module.exports = { createQuiz, getQuizById, editQuiz, getAllQuiz , getAllDataOverview , deleteQuiz , updateQuiz };
+module.exports = {
+  createQuiz,
+  getQuizById,
+  editQuiz,
+  getAllQuiz,
+  getAllDataOverview,
+  deleteQuiz,
+  updateQuiz,
+};

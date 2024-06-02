@@ -174,6 +174,7 @@ function QuizBuilder() {
     if (isEditPermission) {
       res = await editQuizDetailsById(data?.quizId, formData);
       if (res && res?.message) {
+        setIsQuizCreating(false);
         createQuizSuccess();
         toast.success(res?.message, {
           position: "top-center",
@@ -188,11 +189,14 @@ function QuizBuilder() {
           className: "custom_toast",
         });
         handleCancel();
+      } else {
+        setIsQuizCreating(false);
       }
     } else {
       res = await createQuiz(formData);
     }
     if (!isEditPermission && res && res?.message && res?.quizLink) {
+      setIsQuizCreating(false);
       toast.success(res?.message, {
         position: "top-center",
         autoClose: 5000,
@@ -209,6 +213,8 @@ function QuizBuilder() {
       createQuizSuccess();
       closeAllModals();
       openQuizPublishModal(res?.quizLink);
+    } else {
+      setIsQuizCreating(false);
     }
     setTimeout(() => {
       setIsQuizCreating(false);

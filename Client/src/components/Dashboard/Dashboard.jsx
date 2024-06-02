@@ -4,6 +4,7 @@ import image from "../../Image/eyes.svg";
 import { dashboardMenu } from "../../lib/dashboardMenu";
 import { getAllQuizDataOverview } from "../../api/quiz";
 import { useModal } from "../../Hook/ModalContext";
+import moment from "moment";
 import Skeleton from "@mui/material/Skeleton";
 
 export default function Dashboard() {
@@ -47,6 +48,11 @@ export default function Dashboard() {
       console.error("Error fetching updated data:", error);
     }
   };
+
+  quizData?.quizData?.forEach((quiz) => {
+    const date = moment(quiz.createdAt).format("DD MMM, YYYY");
+    quiz.createdDate = date;
+  });
 
   dashboardMenu.forEach((data, index) => {
     data.count = quizData?.quizOverview?.[index];
@@ -128,7 +134,7 @@ export default function Dashboard() {
                     </div>
                   </div>
                   <div className={styles.createdDate}>
-                    Created on : {element?.createdAt}
+                    Created on : {element?.createdDate}
                   </div>
                 </div>
               ))

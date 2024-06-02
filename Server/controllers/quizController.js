@@ -206,12 +206,14 @@ const getAllDataOverview = async (req, res, next) => {
     );
 
     resp.forEach((res) => {
-      let quiz = {
-        quiz_name: res?.quiz_name,
-        impression: res?.impression,
-        createdAt: new Date(res.createdAt).toLocaleDateString("en-GB"),
-      };
-      quizData.push(quiz);
+      if ( res?.impression?.length > 10) {
+        let quiz = {
+          quiz_name: res?.quiz_name,
+          impression: res?.impression,
+          createdAt: new Date(res.createdAt).toLocaleDateString("en-GB"),
+        };
+        quizData.push(quiz);
+      }
     });
 
     quizData.sort((a, b) => b.impression - a.impression);
